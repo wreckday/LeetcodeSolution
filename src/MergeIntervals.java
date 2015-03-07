@@ -5,6 +5,12 @@ import java.util.List;
 
 /**
  * Created by Mellon on 2/22/15.
+ *
+ Given a collection of intervals, merge all overlapping intervals.
+
+ For example,
+ Given [1,3],[2,6],[8,10],[15,18],
+ return [1,6],[8,10],[15,18].
  */
 public class MergeIntervals {
     // 1. implement sort intervals
@@ -21,7 +27,7 @@ public class MergeIntervals {
         {
             @Override
             public int compare(Interval i1, Interval i2)
-            {  // point if the starts are the same, then compare end
+            {  // point: if the starts are the same, then compare end
                 if(i1.start==i2.start)
                     return i1.end-i2.end;
 
