@@ -5,6 +5,7 @@ import java.util.HashMap;
  */
 public class ConstructBinaryTreefromPreorderandInorderTraversal {
 
+    //算法最终相当于一次树的遍历，每个结点只会被访问一次，所以时间复杂度是O(n)。而空间我们需要建立一个map来存储元素到下标的映射，所以是O(n)
     // time : O(n)
     // Space : a map =>  O(n)
 
