@@ -3,11 +3,16 @@ import java.util.List;
 
 /**
  * Created by Mellon on 2/8/15.
+ *
+    Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.
+
+ The Sudoku board could be partially filled, where empty cells are filled with the character '.'.
  */
 public class ValidSudoku {
+    // bigO (n square)
     public static boolean isValidSudoku(char[][] board) {
-        List<char[]> cases = new ArrayList<char[]>();
 
+        // build row and col cases
         for(int i=0;i<9;i++){
             char[] cur = new char[9];
             char[] cur2 = new char[9];
@@ -16,10 +21,13 @@ public class ValidSudoku {
                 cur[j] = board[i][j];
                 cur2[j] = board[j][i];
             }
-            cases.add(cur);
-            cases.add(cur2);
+
+            if(!isValid(cur)||!isValid(cur2))
+                return false;
         }
 
+        // point: please remember it  use '/' to get row(go down), use '%' to get col(go right)
+        // build block cases
         for(int block=0;block<9;block++)
         {
             int index=0;
@@ -32,27 +40,9 @@ public class ValidSudoku {
                     cur[index] = board[i][j];
                     index++;
                 }
-
             }
-            cases.add(cur);
 
-        }
-        /*for(int t=0;t<3;t++){
-            for(int i=t*3;i<3*(t+1);i++){
-                char[] cur = new char[9];
-                for(int k=i*3;k<9;k++){
-                    for(int j=t*3;j<3*(t+1);j++){
-                        cur[k] = board[i][j];
-
-                    }
-                }
-
-                cases.add(cur);
-            }
-        }*/
-
-        for(char[] r : cases){
-            if(!isValid(r))
+            if(!isValid(cur))
                 return false;
         }
         return true;
@@ -72,6 +62,7 @@ public class ValidSudoku {
         }
         return true;
     }
+
 
     private static char[][] buildGrid(String s){
         char[][] grid = new char[9][9];
