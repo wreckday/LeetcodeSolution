@@ -69,8 +69,8 @@ public class Subsets {
     }
 
     public static void main(String[] args){
-        int[] a = {0};
-        subsetsWithDup(a);
+        int[] a = {1,2,3};
+        subsets(a);
     }
 
 
