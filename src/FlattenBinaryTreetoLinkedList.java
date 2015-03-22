@@ -32,13 +32,16 @@ public class FlattenBinaryTreetoLinkedList {
     private TreeNode helper(TreeNode root){
         if(root == null)
             return null;
+
         // point: need to record right tree for later using.
         TreeNode rtree = root.right;
+
         if(root.left!=null){
             root.right = root.left;
             root.left = null;
             root = helper(root.right);
         }
+
         if(rtree!=null){
             root.right = rtree;
             root = helper(root.right);
