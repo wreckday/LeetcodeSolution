@@ -25,9 +25,11 @@ public class SymmetricTree {
         if(p==null && q==null)
             return true;
 
+        //1）左边为空而右边不为空；（2）左边不为空而右边为空
         if(p==null || q==null)
             return false;
 
+        //（3）左边值不等于右边值
         if(p.val != q.val)
             return false;
 
@@ -48,6 +50,7 @@ public class SymmetricTree {
 
         LinkedList<TreeNode> q1 = new LinkedList<TreeNode>();
         LinkedList<TreeNode> q2 = new LinkedList<TreeNode>();
+
         q1.add(root.left);
         q2.add(root.right);
 

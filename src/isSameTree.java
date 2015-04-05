@@ -9,10 +9,15 @@
  */
 public class isSameTree {
     //时间复杂度是O(n)，空间复杂度是O(logn)。
+    // 1）左边为空而右边不为空；（2）左边不为空而右边为空；（3）左边值不等于右边值
     public boolean isSameTree(TreeNode p, TreeNode q) {
+
         if(p == null && q == null) return true;
+
+        //1）左边为空而右边不为空；（2）左边不为空而右边为空；
         if(p==null || q==null) return false;
 
+        //3）左边值不等于右边值
         if(p.val!=q.val)
             return false;
 
