@@ -32,8 +32,10 @@ public class PathSumII {
     }
 
     public void helper(TreeNode root, int sum, List<Integer> item, List<List<Integer>> res){
+        // empty node
         if(root == null) return;
 
+        // leaf node
         if(root.left == null && root.right == null && root.val == sum){
             item.add(root.val);
             res.add(new ArrayList<Integer>(item));

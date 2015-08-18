@@ -8,14 +8,14 @@ public class RemoveDuplicates {
             return 0;
         // compare current element and next element, if they are not duplicate, assign A[index] with the non duplicate value.
         // and index ++
-        int index=1;
+        int index=0;
         for(int i=1; i<A.length;i++){
-            if(A[i]!=A[i-1]){
-                A[index]=A[i];
+            if(A[i]!=A[index]){
                 index++;
+                A[index]=A[i];
             }
         }
-        return index;
+        return index+1;
     }
 
     public static void main(String[] args){

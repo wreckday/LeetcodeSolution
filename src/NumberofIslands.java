@@ -25,28 +25,21 @@
  * Created by Mellon on 4/25/15.
  */
 public class NumberofIslands {
-    int row,col;
-    boolean[][] visited;
-    int[][] dir = {{0,1},{0,-1},{1,0},{-1,0}};
-
-
     public int numIslands(char[][] grid)
     {
+
         if(grid==null || grid.length==0) return 0;
 
-        row = grid.length;
-        col = grid[0].length;
-        visited = new boolean[row][col];
+        int row = grid.length;
+        int col = grid[0].length;
 
-        // connected component
-        int cc=0;
-        for(int i=0;i<row;++i)
-        {
-            for(int j=0;j<col;++j)
-            {
-                if(grid[i][j]=='1' && !visited[i][j])
-                {
-                    dfs(i,j, grid);
+        boolean[][] visited = new boolean[row][col];
+
+        int cc = 0;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(grid[i][j]=='1'&&!visited[i][j]){
+                    dfs(i, j, grid, visited);
                     cc++;
                 }
             }
@@ -54,21 +47,13 @@ public class NumberofIslands {
         return cc;
     }
 
-    private void dfs(int y, int x, char[][] grid)
-    {
-        for(int d=0;d<4;++d)
-        {
-            int ny = y + dir[d][0];
-            int nx = x + dir[d][1];
-
-            if(ny>=0 && ny<row && nx>=0 && nx<col && grid[ny][nx]=='1')
-            {
-                if(!visited[ny][nx])
-                {
-                    visited[ny][nx]=true;
-                    dfs(ny, nx, grid);
-                }
-            }
+    private void dfs(int row, int col, char[][] grid, boolean[][] visited){
+        if(row>=0 && row<grid.length && col>=0 && col<grid[0].length && !visited[row][col] && grid[row][col]=='1'){
+            visited[row][col] = true;
+            dfs(row+1, col, grid, visited);
+            dfs(row, col+1, grid, visited);
+            dfs(row-1, col, grid, visited);
+            dfs(row, col-1, grid, visited);
         }
     }
 }

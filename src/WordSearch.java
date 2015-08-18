@@ -80,4 +80,49 @@ public class WordSearch {
 
         return false;
     }
+
+    public static boolean exist1(char[][] board, String word) {
+        int row = board.length;
+        int col = board[0].length;
+        boolean[][] visited = new boolean[row][col];
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(helper(i, j, board, visited, word, 0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean helper (int row, int col, char[][] board, boolean[][] visited, String word, int i){
+
+        if(row<0||row>board.length-1||col<0||col>board[0].length-1||board[row][col]!=word.charAt(i)||visited[row][col]){
+            return false;
+        }
+
+
+        // base case
+        if (i == word.length()-1){
+            return true;
+        }
+
+        if(row>=0&&row<board.length&&col>=0&&col<board[0].length&&!visited[row][col]){
+            visited[row][col] = true;
+            helper(row-1, col, board, visited, word, i+1);
+            helper(row+1, col, board, visited, word, i+1);
+            helper(row, col-1, board, visited, word, i+1);
+            helper(row, col+1, board, visited, word, i+1);
+        }
+
+
+        visited[row][col] = false;
+        return false;
+    }
+
+
+    public static void main(String[] args){
+        char[][] bb = {{'a'}};
+        System.out.println(exist1(bb, "ab"));
+    }
 }
