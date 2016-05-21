@@ -16,7 +16,7 @@
  *
  * Created by Mellon on 4/3/16.
  */
-public class L333LargestBSTSubtree {
+public class L333_LargestBSTSubtree {
     class Result {  // (size, rangeLower, rangeUpper) -- size of current tree, range of current tree [rangeLower, rangeUpper]
         int size;
         int lower;

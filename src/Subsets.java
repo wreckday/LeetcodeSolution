@@ -68,9 +68,46 @@ public class Subsets {
         return res;
     }
 
+    public static List<List<Integer>> subsetBits(int[] nums) {
+        //error check
+        if(nums==null)
+            return null;
+
+        // sort array
+        Arrays.sort(nums);
+
+        List<List<Integer>> res = new ArrayList<>();
+        int bit = 2<<(nums.length-1);
+
+        for(int i=0;i<bit;i++){
+            List<Integer> item = new ArrayList<>();
+            for(int j=0;j<nums.length;j++){
+                if((i>>j&1)==1){
+                    item.add(nums[j]);
+                }
+            }
+            res.add(item);
+        }
+        return res;
+    }
+
     public static void main(String[] args){
         int[] a = {1,2,3};
-        subsets(a);
+        printArrayListList(subsets(a));
+        System.out.println();
+        List<List<Integer>> res2 = subsetBits(a);
+        printArrayListList(res2);
+
+    }
+
+    private static void printArrayListList(List<List<Integer>> res){
+        for(List<Integer> list : res){
+            System.out.print("[");
+            for(Integer i:list){
+                System.out.print(i+",");
+            }
+            System.out.print("]");
+        }
     }
 
 

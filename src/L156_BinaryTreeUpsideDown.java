@@ -21,7 +21,7 @@
  *
  *
  */
-public class L_156BinaryTreeUpsideDown {
+public class L156_BinaryTreeUpsideDown {
     public static TreeNode UpsideDownBinaryTreeIterate(TreeNode root) {
         TreeNode curr = root;
         TreeNode prev = null;

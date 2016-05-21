@@ -26,7 +26,7 @@ public class L261_GraphValidTree {
             int x = edges[i][0];
             int y = edges[i][1];
 
-            // find
+            // quadratic find root
             while(x!=nums[x]){
                 x = nums[x];
             }

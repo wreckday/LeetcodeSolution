@@ -34,7 +34,7 @@ import java.util.List;
 *     public List<NestedInteger> getList();
 * }
 */
-public class L339NestedListWeightSum {
+public class L339_NestedListWeightSum {
     static int sum=0;
 
     public int depthSum(List<NestedInteger> nestedList) {
