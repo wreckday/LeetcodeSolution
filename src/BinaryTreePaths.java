@@ -7,36 +7,36 @@ import java.util.List;
  * Created by Mellon on 10/3/15.
  */
 public class BinaryTreePaths {
+    static List<String> res = new ArrayList<String>();
+
     public static List<String> binaryTreePaths(TreeNode root) {
-        List<String> res = new ArrayList<String>();
 
-        if(root==null)
-            return res;
+        if(root != null)
+            findPaths(root, String.valueOf(root.val));
 
-        StringBuilder sb = new StringBuilder();
-        helper(root, sb, res);
         return res;
     }
 
-    private static void helper(TreeNode root, StringBuilder sb, List<String> res){
-        if(root == null){
-            res.add(sb.toString());
-            return;
-        }
+    private static void findPaths(TreeNode n, String path){
 
-        if(sb.toString().equals(""))
-            sb.append(root.val);
-        else{
-            sb.append("->");
-            sb.append(root.val);
-        }
+        if(n.left == null && n.right == null)
+            res.add(path);
 
-        helper(root.left, sb, res);
-        helper(root.right, sb, res);
+        if(n.left != null)
+            findPaths(n.left, path+"->"+n.left.val);
+
+        if(n.right != null)
+            findPaths(n.right, path+"->"+n.right.val);
     }
-
     public static void main(String[] args){
         TreeNode root = new TreeNode(1);
-        binaryTreePaths(root);
+        TreeNode n1 = new TreeNode(2);
+        TreeNode n2 = new TreeNode(3);
+        TreeNode n3 = new TreeNode(5);
+        root.left=n1;
+        root.right=n2;
+        n1.right=n3;
+        List<String> res = binaryTreePaths(root);
+        Common.printStringList(res);
     }
 }

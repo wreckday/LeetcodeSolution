@@ -28,6 +28,19 @@ public final class Common extends Object{
             System.out.println("]");
     }
 
+    public static void printNestedStringList(List<List<String>> res){
+        for(List<String> integerList: res){
+            System.out.print("[");
+            for(int i=0;i<integerList.size();i++){
+                System.out.print(integerList.get(i));
+                if(i<integerList.size()-1)
+                    System.out.print(", ");
+            }
+
+            System.out.println("]");
+        }
+    }
+
     public static void printStringList(List<String> integerList){
         System.out.print("[");
         for(int i=0;i<integerList.size();i++){
@@ -38,4 +51,16 @@ public final class Common extends Object{
 
         System.out.println("]");
     }
+
+    public static void printIntegerArray(int[] integerList){
+        System.out.print("[");
+        for(int i=0;i<integerList.length;i++){
+            System.out.print(integerList[i]);
+            if(i<integerList.length-1)
+                System.out.print(", ");
+        }
+
+        System.out.println("]");
+    }
+
 }

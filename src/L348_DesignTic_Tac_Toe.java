@@ -1,5 +1,5 @@
 /**
- * Design a Tic-tac-toe game that is played between two players on a n x n grid.
+ * Design a Tic-tac-toe game that is played between two players on a n col n grid.
 
  You may assume the following rules:
 
