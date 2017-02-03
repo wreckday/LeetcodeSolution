@@ -8,6 +8,7 @@
  * Created by Mellon on 4/3/16.
  */
 public class L270_ClosestBinarySearchTreeValue {
+    // Recursion
     static double min_diff;
     static int node_val;
     public static int closestValue(TreeNode root, double target) {
@@ -32,6 +33,20 @@ public class L270_ClosestBinarySearchTreeValue {
             helper(root.left, target);
         }
     }
+
+    // Iterator
+    public int closestValueIter(TreeNode root, double target) {
+        int ret = root.val;
+
+        while(root != null){
+            if(Math.abs(target - root.val) < Math.abs(target - ret)){
+                ret = root.val;
+            }
+            root = root.val > target? root.left: root.right;
+        }
+        return ret;
+    }
+
 
     public static void main(String[] args){
         /*

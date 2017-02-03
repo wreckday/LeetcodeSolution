@@ -32,6 +32,11 @@ public class FirstBadVersion {
         return l;
     }
 
+    /*
+     We want to check l again, that is because when m is possible to be the first bad version.
+     But here we skip m.
+     So after finishing the while loop, l will be right beside r. We need to check l again.
+    * */
     private static boolean isBadVersion(int version){
         boolean[] quality = {false, true, true, true, true};
         if(version>quality.length || version < 1)

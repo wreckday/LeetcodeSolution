@@ -24,7 +24,6 @@ public class L249_GroupShiftedStrings {
     public static List<List<String>> groupStrings(String[] strings) {
         List<List<String>> result = new ArrayList<>();
         Map<String, List<String>> map = new HashMap<>();
-        Arrays.sort(strings);
 
         for(String s: strings){
             String key = getBitMap(s);
@@ -38,18 +37,25 @@ public class L249_GroupShiftedStrings {
         }
         return result;
     }
+
     private static String getBitMap(String s){
         int[] arr = new int[s.length()];
         arr[0] = 0;
         for(int i = 1; i < s.length(); i++){
-            arr[i] = s.charAt(i)-s.charAt(0) < 0?
-                    ((s.charAt(i)-s.charAt(0))%26 + 26): (s.charAt(i)-s.charAt(0));
+            if(s.charAt(i)-s.charAt(0) < 0)
+                arr[i] = (s.charAt(i)-s.charAt(0))+26; // treat "az" as the same group as "ba"
+            else
+                arr[i] = s.charAt(i)-s.charAt(0);
         }
         return Arrays.toString(arr);
     }
     public static void main(String[] args){
-        String[] strings = {"abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"};
-        List<List<String>> res = groupStrings(strings);
-        Common.printNestedStringList(res);
+        String[] strings2 = {"az", "ba"};
+        //String[] strings = {"abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"};
+        List<List<String>> res = groupStrings(strings2);
+//        List<List<String>> res2 = groupStrings(strings2);
+//        Common.printNestedStringList(res);
+//        System.out.println("");
+//        Common.printNestedStringList(res2);
     }
 }

@@ -23,6 +23,8 @@
  */
 public class L277_FindtheCelebrity {
     // two pass
+    // The first pass is to pick out the candidate. If candidate knows i, then switch candidate.
+    // The second pass is to check whether the candidate is real.
     public int findCelebrity(int n) {
         int candidate = 0;
         for(int i = 1; i < n; i++){
@@ -30,7 +32,9 @@ public class L277_FindtheCelebrity {
                 candidate = i;
         }
         for(int i = 0; i < n; i++){
-            if(i != candidate && (knows(candidate, i) || !knows(i, candidate))) return -1;
+            if(i != candidate){
+                if((knows(candidate, i) || !knows(i, candidate))) return -1;
+            }
         }
         return candidate;
     }

@@ -25,8 +25,9 @@
  * Created by Mellon on 4/25/15.
  */
 public class NumberofIslands {
-    public int numIslands(char[][] grid)
-    {
+
+   // There is no need to set visited cells as 'x', just to set them as '0' is fine.
+    public int numIslands(char[][] grid) {
 
         if(grid==null || grid.length==0) return 0;
 
@@ -56,4 +57,25 @@ public class NumberofIslands {
             dfs(row, col-1, grid, visited);
         }
     }
+
+
+    public static int numIslands2(char[][] grid) {
+        int islands = 0;
+        for (int i=0; i<grid.length; i++)
+            for (int j=0; j<grid[i].length; j++)
+                islands += sink(grid, i, j);
+        return islands;
+    }
+
+    static int sink(char[][] grid, int i, int j) {
+        if (i < 0 || i == grid.length || j < 0 || j == grid[i].length || grid[i][j] == '0')
+            return 0;
+
+        grid[i][j] = '0';
+
+        for (int k=0; k<4; k++)
+            sink(grid, i+d[k], j+d[k+1]);
+        return 1;
+    }
+    static int[] d = {0, 1, 0, -1, 0};
 }

@@ -21,64 +21,40 @@
  */
 public class WordSearch {
     // O(m*n)
-    public boolean exist(char[][] board, String word)
-    {
-        if (board==null || board.length==0 || word==null || word.length()==0){
-            return false;
-        }
+    public boolean exist(char[][] board, String word) {
+        int row = board.length;
+        int col = board[0].length;
 
-        boolean[][] checker = new boolean[board.length][board[0].length];
+        boolean[][] visited = new boolean[row][col];
 
-        for (int row = 0; row < board.length; row++)
-        {
-            for (int col = 0; col < board[0].length; col++)
-            {
-                if ( isFind( checker, board, word, 0, row, col) ){
+        for(int i=0;i<board.length;i++){
+            for(int j=0;j<board[0].length;j++){
+                if(helper(board, word, 0, i, j, visited))
                     return true;
-                }
             }
         }
-
         return false;
     }
 
-    private boolean isFind(boolean[][] checker, char[][] board, String word, int i, int row, int col)
-    {   // i 是層數, 也是字串的index
-        // checker[row][col] is true 因為走過就不要再走一遍了
-        if (board[row][col] != word.charAt(i) || checker[row][col]){
+    private boolean helper(char[][] board, String word, int level, int row, int col, boolean[][] visited){
+        //base case
+        if(level == word.length()){
+            return true;
+        }
+
+        if(row<0||row>board.length-1||col<0||col>board[0].length-1||board[row][col]!=word.charAt(level)||visited[row][col]){
             return false;
         }
 
-        checker[row][col]=true;
+        visited[row][col] = true;
 
-        // base case
-        if (i == word.length()-1){
-            return true;
-        }
+        boolean res =  helper(board, word, level+1, row+1, col, visited)
+                || helper(board, word, level+1, row, col+1, visited)
+                || helper(board, word, level+1, row-1, col, visited)
+                || helper(board, word, level+1, row, col-1, visited);
+        visited[row][col] = false;
 
-        // go up
-        if (row-1 >= 0 && isFind( checker, board, word, i+1, row-1, col ) ){
-            return true;
-        }
-
-        // go down
-        if (row+1 < board.length && isFind( checker, board, word, i+1, row+1, col )){
-            return true;
-        }
-
-        // go left
-        if (col-1 >= 0 && isFind( checker, board, word, i+1, row, col-1 )){
-            return true;
-        }
-
-        // go right
-        if (col+1 < board[0].length && isFind(checker, board, word, i+1, row, col+1)){
-            return true;
-        }
-
-        checker[row][col] = false;
-
-        return false;
+        return res;
     }
 
     public static boolean exist1(char[][] board, String word) {

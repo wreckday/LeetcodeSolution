@@ -21,7 +21,7 @@ public class FindPeakElement {
     // 思路：如果中间元素大于其相邻后续元素，则中间元素左侧(包含该中间元素）必包含一个局部最大值。
     // 如果中间元素小于其相邻后续元素，则中间元素右侧必包含一个局部最大值。
     //时间复杂度：O（lgN）
-    public int findPeakElement(int[] num) {
+    public static int findPeakElement(int[] num) {
         //0535
         int l = 0;
         int r = num.length - 1;
@@ -37,5 +37,10 @@ public class FindPeakElement {
             }
         }
         return r;
+    }
+
+    public static void main(String[] args){
+        int[] a = {1, 2, 1, 4, 1, 2, 5};
+        System.out.println(findPeakElement(a));
     }
 }

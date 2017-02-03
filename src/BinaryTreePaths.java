@@ -1,32 +1,41 @@
-import apple.laf.JRSUIUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+/*
 
+Given a binary tree, return all root-to-leaf paths.
+For example, given the following binary tree:
+   1
+ /   \
+2     3
+ \
+  5
+All root-to-leaf paths are:
+["1->2->5", "1->3"]
+
+*/
 /**
  * Created by Mellon on 10/3/15.
  */
 public class BinaryTreePaths {
-    static List<String> res = new ArrayList<String>();
 
     public static List<String> binaryTreePaths(TreeNode root) {
-
+        List<String> res = new ArrayList<String>();
         if(root != null)
-            findPaths(root, String.valueOf(root.val));
+            findPaths(root, String.valueOf(root.val), res);
 
         return res;
     }
 
-    private static void findPaths(TreeNode n, String path){
+    private static void findPaths(TreeNode n, String path, List<String> res){
 
         if(n.left == null && n.right == null)
             res.add(path);
 
         if(n.left != null)
-            findPaths(n.left, path+"->"+n.left.val);
+            findPaths(n.left, path+"->"+n.left.val, res);
 
         if(n.right != null)
-            findPaths(n.right, path+"->"+n.right.val);
+            findPaths(n.right, path+"->"+n.right.val, res);
     }
     public static void main(String[] args){
         TreeNode root = new TreeNode(1);

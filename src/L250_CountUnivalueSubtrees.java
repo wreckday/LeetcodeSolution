@@ -16,7 +16,11 @@
  * Created by Mellon on 5/24/16.
  */
 public class L250_CountUnivalueSubtrees {
-
+/*
+ The whole tree is a subtree of itself just like
+ for example "abc" is a substring of "abc" and {1,2,3} is a subset of {1,2,3}.
+ What you were thinking of is called "proper" subtree/substring/subset.
+* */
     public static int countUnivalSubtrees(TreeNode root) {
         int[] count = new int[1];
         helper(root, count);

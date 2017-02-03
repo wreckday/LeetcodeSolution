@@ -22,7 +22,7 @@
  *
  */
 public class L156_BinaryTreeUpsideDown {
-    public static TreeNode UpsideDownBinaryTreeIterate(TreeNode root) {
+    public TreeNode UpsideDownBinaryTreeIterate(TreeNode root) {
         TreeNode curr = root;
         TreeNode prev = null;
         TreeNode next = null;
@@ -41,11 +41,11 @@ public class L156_BinaryTreeUpsideDown {
 
     }
 
-    public static TreeNode upsideDownBinaryTree(TreeNode root) {
+    public static TreeNode upsideDownBinaryTreeRecur(TreeNode root) {
         if (root == null || root.left == null && root.right == null)
             return root;
 
-        TreeNode newRoot = upsideDownBinaryTree(root.left);
+        TreeNode newRoot = upsideDownBinaryTreeRecur(root.left);
 
         root.left.left = root.right;
         root.left.right = root;
@@ -70,7 +70,7 @@ public class L156_BinaryTreeUpsideDown {
         printTree(t1);
         System.out.println("");
 
-        TreeNode newTree = upsideDownBinaryTree(t1);
+        TreeNode newTree = upsideDownBinaryTreeRecur(t1);
 
         printTree(newTree);
 

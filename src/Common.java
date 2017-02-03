@@ -63,4 +63,26 @@ public final class Common extends Object{
         System.out.println("]");
     }
 
+    public static void print2DIntegerArray(int[][] integerArray){
+        for(int i=0;i<integerArray.length;i++){
+            System.out.print("[");
+            for(int j=0;j<integerArray[0].length;j++){
+                System.out.print(integerArray[i][j]);
+                if(j<integerArray[0].length-1)
+                    System.out.print(", ");
+            }
+
+            System.out.println("]");
+        }
+    }
+
+    public static void printLinkListNode(ListNode listNode){
+        while(listNode!=null){
+            System.out.print(listNode.val);
+            if(listNode.next!=null)
+                System.out.print("->");
+            listNode = listNode.next;
+        }
+    }
+
 }

@@ -3,48 +3,31 @@
  */
 public class MultiplyStrings {
     public static String multiply(String num1, String num2) {
+        int m = num1.length(), n = num2.length();
+        int[] pos = new int[m + n];
 
-        if(num1==null||num1.length()==0||num2==null||num2.length()==0)
-            return null;
+        for(int i = m - 1; i >= 0; i--) {
+            for(int j = n - 1; j >= 0; j--) {
+                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
+                int p1 = i + j, p2 = i + j + 1;
+                int sum = mul + pos[p2];
 
-        int[] num = new int[num1.length()+num2.length()];
-
-        for(int i=0;i<num2.length();i++)
-        {
-            int a = num2.charAt(num2.length()-i-1)-'0';
-            for(int j=0;j<num1.length();j++)
-            {
-                int b = num1.charAt(num1.length()-j-1)-'0';
-                num[i+j] += a*b;
+                pos[p1] += sum / 10;
+                pos[p2] = (sum) % 10;
             }
         }
 
-        int carry = 0;
-        int copy = 0;
-        for(int i=0;i<num.length;i++){
-            copy = carry;
-            carry = (num[i]+carry)/10;
-            num[i] = (num[i]+copy)%10;
+        StringBuilder sb = new StringBuilder();
+        for(int p : pos) {
+            if(!(sb.length() == 0 && p == 0))
+                sb.append(p);
         }
 
-        int i = num.length-1;
-        // consider "0" * "0", so don't need to check i==0
-        while(i>0 && num[i]==0)
-        {
-            i--;
-        }
-
-        StringBuilder res = new StringBuilder();
-        while(i>=0)
-        {
-            res.append(num[i]);
-            i--;
-        }
-        return res.toString();
+        return sb.length() == 0 ? "0" : sb.toString();
     }
 
     public static void main(String[] args){
-        System.out.println(multiply("425","39"));
+        System.out.println(multiply("20","1"));
     }
 }
 

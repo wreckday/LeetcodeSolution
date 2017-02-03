@@ -42,11 +42,31 @@ public class L261_GraphValidTree {
         return edges.length == n - 1;
     }
 
+    public static boolean validTree2(int n, int[][] edges) {
+        // tree should have n nodes with n-1 edges
+        // or it could be a separate components
+        if (n - 1 != edges.length) {
+            return false;
+        }
+
+        QuickUnion uf = new QuickUnion(n);
+        for (int i = 0; i < edges.length; i++) {
+            // check if it's a cycle
+            if (uf.connected(edges[i][0], edges[i][1])) {  // find(p)==find(q)
+                return false;
+            }
+            uf.union(edges[i][0], edges[i][1]);
+        }
+        return true;
+    }
+
     public static void main(String[] args){
         int[][] input = {{0,1}, {0,2}, {1, 2}};
-        int[][] input2 = {{0, 1}, {1, 2}, {2, 3}, {1, 4}};
+        int[][] input2 = {{0, 1}, {1, 2}, {2, 3},{1, 3}, {1, 4}};
         int[][] input3 = {{2, 3}, {2, 1}, {1, 3}};
-        boolean result = validTree(3, input);
+        boolean result = validTree(5, input2);
+        boolean result2 = validTree2(5, input2);
         System.out.println(result);
+        System.out.println(result2);
     }
 }

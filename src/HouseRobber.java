@@ -12,26 +12,20 @@
  determine the maximum amount of money you can rob tonight without alerting the police.
  */
 public class HouseRobber {
-    public int rob(int[] num) {
-        // dp
-        if(num==null || num.length==0)
-            return 0;
+    public static int rob(int[] nums) {
+        int curr, prev, prev2;
+        curr = prev = prev2 = 0;
 
-        int[] dp = new int[num.length];
-
-        // 初始值
-        dp[0] = num[0];
-        if(num.length<2)
-            return num[0];
-
-        dp[1] = Math.max(dp[0],num[1]);
-
-
-        for(int i=2;i<num.length;i++){
-            // 核心formula
-            dp[i] = Math.max((num[i]+dp[i-2]), dp[i-1]);
+        for (int i = 0; i < nums.length; i++) {
+            curr = Math.max(prev2 + nums[i], prev);
+            prev2 = prev;
+            prev = curr;
         }
+        return curr;
+    }
 
-        return dp[num.length-1];
+    public static void main(String[] args){
+        int[] nums = {5, 3, 9, 10};
+        System.out.print(rob(nums));
     }
 }

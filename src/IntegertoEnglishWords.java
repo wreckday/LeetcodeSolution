@@ -19,7 +19,7 @@ public class IntegertoEnglishWords {
 
         int i = 0;
         String words = "";
-
+// each loop from 0, 1000, 1000000, 1000000000
         while (num > 0) {
             if (num % 1000 != 0)
                 words = helper(num % 1000) +THOUSANDS[i] + " " + words;
@@ -42,6 +42,6 @@ public class IntegertoEnglishWords {
     }
 
     public static void main(String[] args){
-        System.out.println(numberToWords(1000000));
+        System.out.println(numberToWords(1234567));
     }
 }

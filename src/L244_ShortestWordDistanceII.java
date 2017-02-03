@@ -29,10 +29,10 @@ public class L244_ShortestWordDistanceII {
     HashMap<String,LinkedList<Integer>> map;
 
     public L244_ShortestWordDistanceII(String[] words) {
-        map = new HashMap<String, LinkedList<Integer>>();
+        map = new HashMap<>();
         for(int i = 0; i < words.length; i++) {
             String curWord = words[i];
-            if(!map.containsKey(curWord)) map.put(curWord,new LinkedList<Integer>());
+            if(!map.containsKey(curWord)) map.put(curWord,new LinkedList<>());
             map.get(curWord).add(i);
         }
     }

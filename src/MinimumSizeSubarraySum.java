@@ -4,37 +4,17 @@ import java.util.Arrays;
  * Created by Mellon on 8/2/15.
  */
 public class MinimumSizeSubarraySum {
+    // O(n)
     public static int minSubArrayLen(int s, int[] nums) {
-        if(nums==null||nums.length==0)
-            return 0;
-
-        int l=0;
-        int r=-1;
-
-        int min = Integer.MAX_VALUE;
-        int sum=0;
-
-        while(r<nums.length){
-
-            while(sum<s && r< nums.length){
-                r++;
-                if(r<nums.length)
-                    sum = sum + nums[r];
-
-
-            }
-
-            if(sum >= s){
-                min = Math.min(r-l+1, min);
-                sum = sum-nums[l];
-                l++;
+        int sum = 0, from = 0, win = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            while (sum >= s) {
+                win = Math.min(win, i - from + 1);
+                sum -= nums[from++];
             }
         }
-
-        if(min<Integer.MAX_VALUE)
-            return min;
-
-        return 0;
+        return (win == Integer.MAX_VALUE) ? 0 : win;
     }
 
     public static void main(String[] args){

@@ -69,11 +69,13 @@ public class L267_PalindromePermutationII {
             if (i > 0 && list.get(i) == list.get(i - 1) && !used[i - 1]) continue;
 
             if (!used[i]) {
-                used[i] = true; sb.append(list.get(i));
+                used[i] = true;
+                sb.append(list.get(i));
                 // recursion
                 getPerm(list, mid, used, sb, res);
                 // backtracking
-                used[i] = false; sb.deleteCharAt(sb.length() - 1);
+                used[i] = false;
+                sb.deleteCharAt(sb.length() - 1);
             }
         }
     }

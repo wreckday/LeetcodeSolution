@@ -26,9 +26,10 @@ import java.util.List;
  * Created by Mellon on 5/10/16.
  */
 public class CombinationSumIII {
+    // backtracking
     public List<List<Integer>> combinationSum3(int k, int n) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
-        helper(1, k, n, new ArrayList<Integer>(), res);
+        helper(1, k, n, new ArrayList<>(), res);
         return res;
     }
 
@@ -38,7 +39,7 @@ public class CombinationSumIII {
         if(item.size() > k) return;
 
         if(item.size()==k && n==0){
-            res.add(new ArrayList<Integer>(item));
+            res.add(new ArrayList<>(item));
             return;
         }
 

@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  Given an array of citations (each citation is a non-negative integer) of a researcher,
@@ -18,91 +20,28 @@ import java.util.Arrays;
  * Created by Mellon on 6/12/16.
  */
 public class H_Index {
-    public static int hIndex(int[] citations) {
-        //n2
-        if(citations==null||citations.length==0) return 0;
-        if(citations.length==1){
-            if(citations[0]>0) return 1;
-            else return 0;
-        }
-
-        int max=0;
-        for(int i=0;i<citations.length;i++){
-            int count = 0;
-            for(int j=0;j<citations.length;j++){
-                if(citations[j]>=citations[i])
-                    count++;
-            }
-            if(count>=citations[i])
-                max = Math.max(citations[i], max);
-            else
-                max = Math.max(count, max);
-        }
-        return max;
-    }
+    /*      h-index (f) = max i min(f(i),i)}
+    f(A)=10, f(B)=8, f(C)=5, f(D)=4, f(E)=3　→ h-index=4
+    f(A)=25, f(B)=8, f(C)=5, f(D)=3, f(E)=3　→ h-index=3
+    */
 
     public static int hIndex_Sort(int[] citations) {
         // nlogn
         if(citations==null||citations.length==0) return 0;
-        if(citations.length==1){
-            if(citations[0]>0) return 1;
-            else return 0;
-        }
+
         Arrays.sort(citations);
 
         int max=0;
         for(int i=0;i<citations.length;i++){
-            if(citations.length-i>=citations[i])
-                max = Math.max(citations[i], max);
-            else
-                max = Math.max(citations.length-i, max);
+            int index = citations.length-i;
+            max = Math.max(max, Math.min(index, citations[i]));
         }
         return max;
     }
 
-    public static int hIndex_HashTable(int[] citations) {
-        // nlogn
-        if(citations==null||citations.length==0) return 0;
-        if(citations.length==1){
-            if(citations[0]>0) return 1;
-            else return 0;
-        }
-        Arrays.sort(citations);
-
-        int max=0;
-        for(int i=0;i<citations.length;i++){
-            if(citations.length-i>=citations[i])
-                max = Math.max(citations[i], max);
-            else
-                max = Math.max(citations.length-i, max);
-        }
-        return max;
-    }
-
-    public static int hIndex_N(int[] citations) {
-        /*
-         After finalizing the counts vector,
-         we can then easily locate his h-index by scanning from right (L) to left (0).
-         By definition,
-         index k is his h-index if the summation of all elements from counts[k] to counts[L] is no less than k.
-        * */
-        int L = citations.length;
-        if(L<1) return 0;
-        int[] counts = new int[L];
-        for(int i : citations) {
-            if(i>L) counts[L]++;
-            else counts[i]++;
-        }
-        int res = 0;
-        for(int k=L; k>=0; k--) {
-            res += counts[k];
-            if(res>=k) return k;
-        }
-        return 0;
-    }
 
     public static void main(String[] args){
-        int[] citations = {11, 15};
-        System.out.println(hIndex(citations));
+        int[] citations = {0};
+        System.out.println(hIndex_Sort(citations));
     }
 }

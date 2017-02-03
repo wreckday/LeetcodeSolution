@@ -10,15 +10,12 @@
      (ie, you must sell the stock before you buy again).
  */
 public class BestTimetoBuyandSellStockII {
+
     public int maxProfit(int[] prices) {
-        if(prices==null||prices.length==0)
-            return 0;
-        int local=0;
-        int global=0;
-        for(int i=1;i<prices.length;i++){
-            local = Math.max(local+prices[i]-prices[i-1], local);
-            global = Math.max(local, global);
+        int maxProfit = 0;
+        for (int i = 1; i < prices.length - 1; i++) {
+            maxProfit = Math.max(maxProfit + (prices[i]-prices[i-1]), maxProfit);
         }
-        return global;
+        return maxProfit;
     }
 }

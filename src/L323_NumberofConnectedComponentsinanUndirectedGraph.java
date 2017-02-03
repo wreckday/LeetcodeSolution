@@ -22,6 +22,12 @@
  Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not appear together in edges.
  */
 public class L323_NumberofConnectedComponentsinanUndirectedGraph {
+
+    // quick union
+
+    // value for the array index is parent of the node
+
+
     public int countComponents(int n, int[][] edges) {
         int[] roots = new int[n];
         for(int i = 0; i < n; i++) roots[i] = i;
@@ -43,5 +49,9 @@ public class L323_NumberofConnectedComponentsinanUndirectedGraph {
             id = roots[id];
         }
         return id;
+    }
+
+    public static void main(){
+
     }
 }

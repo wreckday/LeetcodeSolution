@@ -19,21 +19,25 @@ import java.util.Arrays;
  */
 public class L259_3SumSmaller {
     public static int threeSumSmaller(int[] nums, int target) {
+        // 先将数组排序
         Arrays.sort(nums);
-        int count =0 ;
-        for(int i=0;i<nums.length;i++) {
-            for(int j=i+1;j<nums.length;j++){
-                int k=nums.length-1;
-                while(j<k) {
-                    int sum = nums[i]+nums[j]+nums[k];
-                    if(sum<target) {
-                        count++;
-                    }
-                    k--;
+        int cnt = 0;
+        for(int i = 0; i < nums.length - 2; i++){
+            int left = i + 1, right = nums.length - 1;
+            while(left < right){
+                int sum = nums[i] + nums[left] + nums[right];
+                // 如果三个数的和大于等于目标数，那将尾指针向左移
+                if(sum >= target){
+                    right--;
+                    // 如果三个数的和小于目标数，那将头指针向右移
+                } else {
+                    // right - left个组合都是小于目标数的
+                    cnt += right - left;
+                    left++;
                 }
             }
         }
-        return count;
+        return cnt;
     }
 
     public static void main(String[] args){

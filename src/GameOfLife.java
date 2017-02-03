@@ -2,54 +2,41 @@
  * Created by Mellon on 11/7/15.
  */
 public class GameOfLife {
-    // 0 is dead, 1 is alive, 2 is reproduction(dead->alive), 3 is over-population or under-population (alive->dead)
     public static void gameOfLife(int[][] board) {
-        for(int r = 0; r < board.length; r++){
-            for(int c = 0; c < board[0].length; c++){
-                int aliveNeighbours = getAliveNeighbours(board, r, c);
-                if(board[r][c] == 0  && aliveNeighbours == 3){
-                    board[r][c] = 2;
-                }else if(board[r][c] == 1 && (aliveNeighbours < 2 || aliveNeighbours > 3)){
-                    board[r][c] = 3;
+        if (board == null || board.length == 0) return;
+        int m = board.length, n = board[0].length;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int lives = liveNeighbors(board, m, n, i, j);
+
+                // In the beginning, every 2nd bit is 0;
+                // So we only need to care about when will the 2nd bit become 1.
+                if (board[i][j] == 1 && lives >= 2 && lives <= 3) {
+                    board[i][j] = 3; // Make the 2nd bit 1: 01 ---> 11
+                }
+                if (board[i][j] == 0 && lives == 3) {
+                    board[i][j] = 2; // Make the 2nd bit 1: 00 ---> 10
                 }
             }
         }
 
-        for(int r = 0; r < board.length; r++){
-            for(int c = 0; c < board[0].length; c++){
-                if(board[r][c] == 3){
-                    board[r][c] = 0;
-                }else if(board[r][c] == 2){
-                    board[r][c] = 1;
-                }else{
-                    board[r][c] = board[r][c];
-                }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] >>= 1;  // Get the 2nd state.
             }
         }
     }
 
-    private static int getAliveNeighbours(int board[][], int r, int c){
-        int aliveNeighbours = 0;
-
-        for(int i=r-1;i>r+1;i++){
-
-            for (int j = c - 1; j > c + 1; j++) {
-
-                if (i == r && j == c) continue;
-                if (board[i][j] == 1 || board[i][j] == 3)
-                    aliveNeighbours++;
+    public static int liveNeighbors(int[][] board, int m, int n, int i, int j) {
+        int lives = 0;
+        for (int x = Math.max(i - 1, 0); x <= Math.min(i + 1, m - 1); x++) {
+            for (int y = Math.max(j - 1, 0); y <= Math.min(j + 1, n - 1); y++) {
+                lives += board[x][y] & 1;   //"board[i][j] & 1" to get the previous state
             }
         }
-
-
-        // for(int i = (r-1 < 0 ? 0 : r-1); i <= (r+1 > board.length-1 ? board.length-1 : r+1) ; i++){
-        //     for(int j = (c-1 < 0 ? 0 : c-1); j <= (c+1 > board[0].length -1 ? board[0].length -1 : c+1); j++){
-        //         if(i == r && j == c) continue;
-        //         if(board[i][j] == 1 || board[i][j] == 3)
-        //             aliveNeighbours++;
-        //     }
-        // }
-        return aliveNeighbours;
+        lives -= board[i][j] & 1;
+        return lives;
     }
 
     public static void main(String[] args){
@@ -60,5 +47,6 @@ public class GameOfLife {
                 System.out.print(e);
             }
         }
+
     }
 }

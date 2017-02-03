@@ -3,14 +3,30 @@
  */
 public class H_index2 {
     public static int hIndex(int[] citations) {
-        int left=0, len = citations.length, right= len-1,  mid;
-        while(left<=right)
-        {
-            mid=(left+right)>>1;
-            if(citations[mid]== (len-mid)) return citations[mid];
-            else if(citations[mid] > (len-mid)) right = mid - 1;
-            else left = mid + 1;
+        int l = 0;
+        int r = citations.length-1;
+        int index;
+        int max = 0;
+        while(l<=r){
+            int mid = (l+r)/2;
+            index = citations.length-mid;
+
+            if(citations[mid] >= index){
+                r = mid-1;
+                max = Math.max(max, index);
+            }else{
+                l = mid+1;
+                max = Math.max(max, citations[mid]);
+            }
         }
-        return len - (right+1);
+        return max;
+    }
+
+    public static void main(String[] args){
+        int[] citations = {3, 4, 5, 8, 10};
+        int[] citations2 = {100};
+        int[] citations3 = {11, 15};
+        int[] citations4 = {0, 0, 4, 4};
+        System.out.println(hIndex(citations2));
     }
 }
