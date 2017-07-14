@@ -22,11 +22,11 @@ class MyQueue {
 
     // Push element x to the back of queue.
     public void push(int x) {
-        if(stack1.isEmpty()){
-            while(!stack2.isEmpty()){
-                stack1.push(stack2.pop());
-            }
-        }
+//        if(stack1.isEmpty()){
+//            while(!stack2.isEmpty()){
+//                stack1.push(stack2.pop());
+//            }
+//        }
         stack1.push(x);
     }
 

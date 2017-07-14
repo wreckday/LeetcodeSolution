@@ -37,7 +37,7 @@ class Codec2{
         return sb.toString();
     }
 
-    //DFS -- in-order traverse
+    //DFS -- pre-order traverse
     private void buildString(TreeNode node, StringBuilder sb) {
         if (node == null) {
             sb.append(NN).append(spliter);

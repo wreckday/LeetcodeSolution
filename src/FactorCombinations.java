@@ -22,13 +22,13 @@ import java.util.List;
  */
 public class FactorCombinations {
 
-    public static List<List<Integer>> getFactors(int n) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-        helper(result, new ArrayList<>(), n, 2);
+    public static List<List<Integer>> getFactorsFaster(int n) {
+        List<List<Integer>> result = new ArrayList<>();
+        helperFaster(n, 2, new ArrayList<>(), result);
         return result;
     }
 
-    public static void helper(List<List<Integer>> result, List<Integer> item, int n, int start){
+    public static void helperFaster(int n, int start, List<Integer> item, List<List<Integer>> result){
         if (n <= 1) {
             if (item.size() > 1) {
                 result.add(new ArrayList<>(item));
@@ -36,44 +36,24 @@ public class FactorCombinations {
             return;
         }
 
-        for (int i = start; i <= n; ++i) {
+        for (int i = start; i * i <= n; i++) {
             if (n % i == 0) {
                 item.add(i);
-                helper(result, item, n/i, i);
-                item.remove(item.size()-1);
-            }
-        }
-    }
-
-    public static List<List<Integer>> productFactors(int input){
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
-        helper(input, 2, new ArrayList<>(), res);
-        return res;
-    }
-
-    private static void helper(int value, int start, List<Integer> item, List<List<Integer>> res ){
-        if (value <= 1) {
-            if (item.size() > 1) {
-                res.add(new ArrayList<>(item));
-            }
-            return;
-        }
-
-        for(int i=start;i<=value;i++){
-            if(value%i==0){
-                item.add(i);
-                helper(value / i, i, item, res);
+                helperFaster(n / i, i, item, result);
                 item.remove(item.size()-1);
             }
         }
 
+        // e.g. n = 6    (6/2 ->  start = i = 3, n = 3)
+        int i = n;
+        item.add(i);
+        helperFaster(n / i, i, item, result);
+        item.remove(item.size()-1);
     }
 
     public static void main(String[] args){
-        int input = 8;
-        List<List<Integer>> res = productFactors(input);
-        List<List<Integer>> res2 = getFactors(input);
-        int v =5;
-
+        int input = 37;
+        List<List<Integer>> res2 = getFactorsFaster(input);
+        Common.printNestedList(res2);
     }
 }

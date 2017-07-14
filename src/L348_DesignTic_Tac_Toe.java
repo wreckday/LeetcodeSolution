@@ -50,60 +50,6 @@
 
  * Created by Mellon on 5/17/16.
  */
-
-//class TicTacToe{
-//    private int[][] board;
-//    private int N;
-//    /** Initialize your data structure here. */
-//    public TicTacToe(int n) {
-//        board = new int[n][n];
-//        this.N=n;
-//    }
-//
-//    /** Player {player} makes a move at ({row}, {col}).
-//     @param row The row of the board.
-//     @param col The column of the board.
-//     @param player The player, can be either 1 or 2.
-//     @return The current winning condition, can be either:
-//     0: No one wins.
-//     1: Player 1 wins.
-//     2: Player 2 wins. */
-//    public int move(int row, int col, int player) {
-//        if(player==1){
-//            board[row][col] = 1;
-//            if(isWin(player, row, col))
-//                return 1;
-//        }else if(player==2){
-//            board[row][col] = 2;
-//            if(isWin(player, row, col))
-//                return 2;
-//        }
-//        return 0;
-//    }
-//
-//    private boolean isWin(int player, int row, int col){
-//        // check row
-//        int rowCount = 0;
-//        int colCount = 0;
-//        int dialCount = 0;
-//        int dialCount2 = 0;
-//        for(int i=0;i<N;i++){
-//            if(board[row][i]==player)
-//                colCount++;
-//            if(board[i][col]==player)
-//                rowCount++;
-//            if(i<N && board[i][i]==player)
-//                dialCount++;
-//            if(N-1-i>=0 && i<N && board[N-1-i][i]==player)
-//                dialCount2++;
-//
-//        }
-//        if(rowCount==N || colCount==N || dialCount==N || dialCount2==N)
-//            return true;
-//        return false;
-//    }
-//}
-
 //Java O(1) solution
 class TicTacToe {
     private int[] rows;

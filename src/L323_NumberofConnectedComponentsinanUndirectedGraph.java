@@ -28,7 +28,7 @@ public class L323_NumberofConnectedComponentsinanUndirectedGraph {
     // value for the array index is parent of the node
 
 
-    public int countComponents(int n, int[][] edges) {
+    public static int countComponents(int n, int[][] edges) {
         int[] roots = new int[n];
         for(int i = 0; i < n; i++) roots[i] = i;
 
@@ -43,7 +43,7 @@ public class L323_NumberofConnectedComponentsinanUndirectedGraph {
         return n;
     }
 
-    public int find(int[] roots, int id) {
+    public static int find(int[] roots, int id) {
         while(roots[id] != id) {
             roots[id] = roots[roots[id]];  // optional: path compression
             id = roots[id];
@@ -51,7 +51,8 @@ public class L323_NumberofConnectedComponentsinanUndirectedGraph {
         return id;
     }
 
-    public static void main(){
-
+    public static void main(String[] args){
+        int[][] edges = {{0, 1}, {1, 2}, {3, 4}};
+        countComponents(5, edges);
     }
 }

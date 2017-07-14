@@ -17,7 +17,25 @@ public class L253_MeetingRoomsII {
         Interval() { start = 0; end = 0; }
         Interval(int s, int e) { start = s; end = e; }
     }
+
     public static int minMeetingRooms(Interval[] intervals) {
+        if (intervals.length == 0) {
+            return 0;
+        }
+        // sort
+        Arrays.sort(intervals, (a, b)->(a.start-b.start));
+        // PriorityQueue
+        PriorityQueue<Integer> ends = new PriorityQueue<>();
+        for (Interval cur_interval : intervals) {
+            if (!ends.isEmpty() && cur_interval.start >= ends.peek()) { // no overlap, then should update smallest end.
+                ends.poll();
+            }
+            ends.offer(cur_interval.end);
+        }
+        return ends.size();
+    }
+
+    public static int minMeetingRoomsGood(Interval[] intervals) {
         //Just want to share another idea that uses min heap, average time complexity is O(nlogn).
         if (intervals == null || intervals.length == 0)
             return 0;
@@ -55,14 +73,16 @@ public class L253_MeetingRoomsII {
         return heap.size();
     }
 
+
     public static void main(String[] args){
 
         Interval meet2 = new Interval(4, 9);
         Interval meet3 = new Interval(4, 17);
         Interval meet1 = new Interval(9, 19);
-//        Interval meet4 = new Interval(16, 17);
-        Interval[] intervals = {meet1, meet2, meet3};
+        Interval meet4 = new Interval(16, 17);
+        Interval[] intervals = {meet1, meet2, meet3, meet4};
 
         System.out.println(minMeetingRooms(intervals));
+        System.out.println(minMeetingRoomsGood(intervals));
     }
 }

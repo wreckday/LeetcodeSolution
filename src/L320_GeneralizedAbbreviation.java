@@ -14,7 +14,27 @@ import java.util.List;
  * Created by Mellon on 5/13/16.
  */
 public class L320_GeneralizedAbbreviation {
-    public List<String> generateAbbreviations(String word){
+    public static List<String> generateAbbreviations(String word) {
+        List<String> res = new ArrayList<>();
+        DFS(res, new StringBuilder(), word.toCharArray(), 0, 0);
+        return res;
+    }
+
+    public static void DFS(List<String> res, StringBuilder sb, char[] c, int i, int num) {
+        int len = sb.length();
+        if(i == c.length) {
+            if(num != 0) sb.append(num);
+            res.add(sb.toString());
+        } else {
+            DFS(res, sb, c, i + 1, num + 1);               // abbr c[i]
+
+            if(num != 0) sb.append(num);                   // not abbr c[i]
+            DFS(res, sb.append(c[i]), c, i + 1, 0);
+        }
+        sb.setLength(len);
+    }
+//******************************************************
+    public List<String> generateAbbreviations2(String word){
         List<String> ret = new ArrayList<String>();
         backtrack(ret, word, 0, "", 0);
 
@@ -32,7 +52,22 @@ public class L320_GeneralizedAbbreviation {
         }
     }
 
+    public static void main(String[] args){
+        generateAbbreviations("word");
+    }
     /*
+    For each char c[i], either abbreviate it or not.
+
+    Abbreviate: count accumulate num of abbreviating chars, but don't append it yet.
+    Not Abbreviate: append accumulated num as well as current char c[i].
+    In the end append remaining num.
+    Using StringBuilder can decrease 36.4% time.
+    This comes to the pattern I find powerful:
+
+    int len = sb.length(); // decision point
+    ... backtracking logic ...
+    sb.setLength(len);     // reset to decision point
+
     * The idea is: for every character,
     * we can keep it or abbreviate it.
     * To keep it, we add it to the current solution and carry on backtracking.

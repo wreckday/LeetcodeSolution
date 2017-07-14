@@ -17,7 +17,7 @@ public class L280_WiggleSort {
     所以我们只要遍历一遍数组，把不符合的情况交换一下就行了。具体来说，如果nums[i] > nums[i - 1]，
     则交换以后肯定有nums[i] <= nums[i - 1]。
     */
-    public void wiggleSort(int[] nums) {
+    public static void wiggleSort(int[] nums) {
         for(int i = 1; i < nums.length; i++){
             // 需要交换的情况：奇数时nums[i] < nums[i - 1]或偶数时nums[i] > nums[i - 1]
             if((i % 2 == 1 && nums[i] < nums[i-1]) || (i % 2 == 0 && nums[i] > nums[i-1])){
@@ -26,5 +26,11 @@ public class L280_WiggleSort {
                 nums[i] = tmp;
             }
         }
+    }
+
+    public static void main(String[] args){
+        int[] nums = {3, 5, 2, 1, 6, 4};
+        wiggleSort(nums);
+        Common.printIntegerArray(nums);
     }
 }

@@ -31,7 +31,7 @@ public class L341_FlattenNestedListIterator implements Iterator<Integer> {
     public L341_FlattenNestedListIterator(List<NestedInteger> nestedList) {
         this.nL = nestedList;
         currentCount = 0;
-        flattenedList = new ArrayList<Integer>();
+        flattenedList = new ArrayList<>();
         doListFlat(nestedList);
         totalCount = flattenedList.size();
     }

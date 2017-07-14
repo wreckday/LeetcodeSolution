@@ -4,39 +4,20 @@ import java.util.Stack;
  * Created by Mellon on 4/28/15.
  */
 public class ValidParentheses {
+
     public static boolean isValid(String s) {
-        if(s==null||s.length()==0)
-            return false;
         Stack<Character> stack = new Stack<Character>();
-
-        int i = 0;
-
-        while(i<s.length()){
-            switch (s.charAt(i)){
-                case '(':
-                case '[':
-                case '{':
-                    stack.push(s.charAt(i));
-                    break;
-                case ')':
-                    if(stack.isEmpty() || stack.pop() != '(')
-                        return false;
-                    break;
-                case ']':
-                    if(stack.isEmpty() || stack.pop() != '[')
-                        return false;
-                    break;
-                case '}':
-                    if(stack.isEmpty() || stack.pop() != '{')
-                        return false;
-                    break;
-            }
-
-            i++;
+        for (char c : s.toCharArray()) {
+            if (c == '(')
+                stack.push(')');
+            else if (c == '{')
+                stack.push('}');
+            else if (c == '[')
+                stack.push(']');
+            else if (stack.isEmpty() || stack.pop() != c)
+                return false;
         }
-        if(stack.isEmpty())
-            return true;
-        return false;
+        return stack.isEmpty();
     }
 
     public static void main(String[] args){

@@ -9,7 +9,7 @@ import java.util.Comparator;
  * Created by Mellon on 9/29/16.
  */
 public class LargestNumber {
-    public String largestNumber(int[] num) {
+    public static String largestNumber(int[] num) {
         // 1. transfer int[] to string []
         String[] numStrArray = new String[num.length];
 
@@ -37,5 +37,23 @@ public class LargestNumber {
             return "0";
 
         return sb.toString();
+    }
+    /*
+    Let's assume:
+    the length of input array is n,
+    average length of Strings in s_num is k,
+    Then, compare 2 strings will take O(k).
+    Sorting will take O(nlgn)
+    Appending to StringBuilder takes O(n).
+    So total will be O(nklgnk) + O(n) = O(nklgnk).
+
+    Space is pretty straight forward: O(n).
+    * */
+
+    public static void main(String[] args){
+        int[] nums = {3, 30, 34, 5, 9};
+        String s1 = "3";
+        String s2 = "30";
+        System.out.println(s1.compareTo(s2));
     }
 }

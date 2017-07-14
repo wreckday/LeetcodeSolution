@@ -13,6 +13,10 @@ import java.util.*;
  * Created by Mellon on 5/4/16.
  */
 public class TopKFrequentElements {
+    /*
+    build a priority queue takes O(NlogN)
+    insert or delete takes O(logN)
+    * */
     public static List<Integer> topKFrequent(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         for(int num: nums){
@@ -28,10 +32,39 @@ public class TopKFrequentElements {
         return res;
     }
 
+    public static List<Integer> topKFrequentBucketSort(int[] nums, int k) {
+        // bucket index is frequency, value are a integer array which are nums
+        //List of integer array
+        List<Integer>[] bucket = new List[nums.length + 1];
+
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+
+        for (int n : nums) {
+            frequencyMap.put(n, frequencyMap.getOrDefault(n, 0) + 1);
+        }
+
+        for (int key : frequencyMap.keySet()) {
+            int frequency = frequencyMap.get(key);
+            if (bucket[frequency] == null) {
+                bucket[frequency] = new ArrayList<>();
+            }
+            bucket[frequency].add(key);
+        }
+
+        List<Integer> res = new ArrayList<>();
+
+        for (int pos = bucket.length - 1; pos >= 0 && res.size() < k; pos--) {
+            if (bucket[pos] != null) {
+                res.addAll(bucket[pos]);
+            }
+        }
+        return res.subList(0,k);
+    }
+
     public static void main(String[] args){
         int[] nums = {1, 1, 1, 2, 2, 3,};
         int k = 2;
-        List<Integer> res = topKFrequent(nums, k);
+        List<Integer> res = topKFrequentBucketSort(nums, k);
         for(Integer i:res){
             System.out.print(i+",");
         }

@@ -31,14 +31,13 @@ class MyStack {
     public void push(int x) {
         queue.add(x);
         for(int i=0;i<queue.size()-1;i++){
-            queue.add(queue.peek());
-            queue.remove();
+            queue.add(queue.remove());
         }
     }
 
     // Removes the element on top of the stack.
-    public void pop() {
-        queue.remove();
+    public int pop() {
+        return queue.remove();
     }
 
     // Get the top element.

@@ -1,5 +1,7 @@
 /**
- Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, with the colors in the order red, white and blue.
+ Given an array with n objects colored red, white or blue,
+ sort them so that objects of the same color are adjacent,
+ with the colors in the order red, white and blue.
 
  Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
 
@@ -24,7 +26,7 @@ public class SortColors {
             return;
         }
 
-        // the left elements of redIndex are all white, the right elements of blueIndex are all blue
+        // the left elements of redIndex are all red, the right elements of blueIndex are all blue
         int redIndex = 0;
         int blueIndex = A.length - 1;
         int i = 0;

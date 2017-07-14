@@ -20,7 +20,7 @@ public class L159_LongestSubstringwithAtMostTwoDistinctCharacters {
             return 0;
 
         int count = 0;
-        HashMap<Character,Integer> map = new HashMap<>();
+        HashMap<Character,Integer> map = new HashMap<>(); // key: character, value: count of the character(key) in the moving window
         int start = 0;
         int len = 0;
         for(int i = 0;i<s.length();i++) {

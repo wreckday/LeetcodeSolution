@@ -20,7 +20,20 @@ import java.util.List;
  * Created by Mellon on 4/2/16.
  */
 public class CountingBits {
+    //An easy recurrence for this problem is f[i] = f[i / 2] + i % 2.
+    /*
+    For the the first solution : f[i] = f[i >> 1] + (i & 1) .
+    This is more straight-forward. Right shit by 1 bit, compare to previously,
+    the number of set bit would either reduce by 1(when number is odd) or no change(when number is even),
+    that is why we add ( i & 1 ) which reflects whether the number is even or odd.
+    * */
     public static int[] countBits(int num) {
+        int[] f = new int[num + 1];
+        for (int i=1; i<=num; i++) f[i] = f[i >> 1] + (i & 1);
+        return f;
+    }
+
+    public static int[] countBits2(int num) {
 
         int[] old = new int[num+1];
         int oldSize = 1;

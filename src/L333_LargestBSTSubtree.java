@@ -17,11 +17,21 @@
  *
  * Created by Mellon on 4/3/16.
  */
+class Result {  // (size, rangeLower, rangeUpper) -- size of current tree, range of current tree [rangeLower, rangeUpper]
+    int size;
+    int lower;
+    int upper;
+
+    Result(int size, int lower, int upper) {
+        this.size = size;
+        this.lower = lower;
+        this.upper = upper;
+    }
+}
+
 public class L333_LargestBSTSubtree {
 // O(n)
-
     static int max = 0;
-
     public static int largestBSTSubtree(TreeNode root) {
         if (root == null) { return 0; }
         traverse(root);
@@ -55,15 +65,5 @@ public class L333_LargestBSTSubtree {
     }
 }
 
-class Result {  // (size, rangeLower, rangeUpper) -- size of current tree, range of current tree [rangeLower, rangeUpper]
-    int size;
-    int lower;
-    int upper;
 
-    Result(int size, int lower, int upper) {
-        this.size = size;
-        this.lower = lower;
-        this.upper = upper;
-    }
-}
 //https://leetcode.com/discuss/86027/share-my-o-n-java-code-with-brief-explanation-and-comments

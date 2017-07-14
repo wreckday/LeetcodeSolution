@@ -11,44 +11,58 @@
 public class BestTimetoBuyandSellStockIV {
 
     public static int maxProfit(int k, int[] prices) {
-        // write your code here
-        if (k == 0) {
+        int len = prices.length;
+        if (k >= len / 2) return quickSolve(prices);
+        if (len < 2 || k <= 0)
             return 0;
-        }
-        // can treat as unlimited transaction, refer to BestTimetoBuyandSellStockII
-        if (k >= prices.length / 2) {
-            int profit = 0;
-            for (int i = 1; i < prices.length; i++) {
-                if (prices[i] > prices[i - 1]) {
-                    profit += prices[i] - prices[i - 1];
-                }
-            }
-            return profit;
-        }
 
-        int n = prices.length;
-        int[][] mustSell = new int[n + 1][n + 1];   // mustSell[i][j] 表示前i天，至多进行j次交易，第i天必须sell的最大获益
-        int[][] globalBest = new int[n + 1][n + 1];  // globalBest[i][j] 表示前i天，至多进行j次交易，第i天可以不sell的最大获益
+        int[][] local = new int[len][k + 1];
+        int[][] global = new int[len][k + 1];
 
-        mustSell[0][0] = globalBest[0][0] = 0;
-        for (int i = 1; i <= k; i++) {
-            mustSell[0][i] = globalBest[0][i] = 0;
-        }
-
-        for (int i = 1; i < n; i++) {
-            int gainorLose = prices[i] - prices[i - 1];
-            mustSell[i][0] = 0;
+        for (int i = 1; i < len; i++) {
+            int diff = prices[i] - prices[i - 1];
             for (int j = 1; j <= k; j++) {
-                mustSell[i][j] = Math.max(globalBest[(i - 1)][j - 1] + gainorLose, mustSell[(i - 1)][j] + gainorLose);
-                globalBest[i][j] = Math.max(globalBest[(i - 1)][j], mustSell[i][j]);
+                local[i][j] = Math.max(
+                        global[i - 1][j - 1] + Math.max(diff, 0),
+                        local[i - 1][j] + diff);
+
+                //System.out.println(String.format("local[%1$d][%2$d] : %3$d", i, j, local[i][j]));
+                global[i][j] = Math.max(global[i - 1][j], local[i][j]);
+                //System.out.println(String.format("global[%1$d][%2$d] : %3$d", i, j, global[i][j]));
             }
         }
-        return globalBest[(n - 1)][k];
+
+        return global[prices.length - 1][k];
     }
 
+    private static int quickSolve(int[] prices) {
+        int len = prices.length, profit = 0;
+        for (int i = 1; i < len; i++)
+            // as long as there is a price gap, we gain a profit.
+            if (prices[i] > prices[i - 1]) profit += prices[i] - prices[i - 1];
+        return profit;
+    }
+
+    /*
+    Analysis O(nk) solution with O(k) space
+
+    This is a generalized version of Best Time to Buy and Sell Stock III.
+    If we can solve this problem, we can also use k=2 to solve III.
+
+    The problem can be solve by using dynamic programming. The relation is:
+
+    local[i][j] = max(global[i-1][j-1] + max(diff,0), local[i-1][j]+diff)
+    global[i][j] = max(local[i][j], global[i-1][j])
+
+    We track two arrays - local and global.
+    1. The local array tracks maximum profit of j transactions and the last transaction is on ith day.
+    2. The global array tracks the maximum profit of at most j transactions until ith day.
+    * */
+
     public static void main(String[] args){
-        int[] prices1={5,-2,3,4,1,9};
-        int k = 3;
-        System.out.println(maxProfit(k, prices1));
+        int[] prices1={6,1,3,2,4,7};
+        int k = 2;   // expected : 7
+        System.out.println("_______________________");
+        System.out.println("answer: " + maxProfit(k, prices1));
     }
 }
