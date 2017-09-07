@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -82,6 +84,38 @@ public class CourseSchedule {
         return numCourses==0;
     }
 
+    public static boolean canFinishDFS(int numCourses, int[][] prerequisites) {
+        // 0....n-1
+        // build a directed graph from prerequisites
+        List<List<Integer>> inDegree = new ArrayList<>();
+        for(int i=0;i<numCourses;i++){
+            inDegree.add(new ArrayList<>());
+        }
+        for(int i=0;i<prerequisites.length;i++){
+            inDegree.get(prerequisites[i][1]).add(prerequisites[i][0]);
+        }
+        int[] visited = new int[numCourses];
+        // start from each course and see if any cycle exists in the path
+        for(int i=0;i<numCourses;i++){
+            if(!dfs(i, inDegree, visited)) return false;
+        }
+        return true;
+    }
+
+    // time O(V+E), space O(numCourse)
+    private static boolean dfs(int course, List<List<Integer>> inDegree, int[] visited ){
+        if(visited[course]==-1) return false;
+        if(visited[course]==1) return true; // visit[i] == 1说明i点没有环经过，
+        // 我们再遍历其他点时又遇到了i点的话，如果其值为1就直接返回true，不用再去检查i所能到达的其他点
+        // 因为之前已经检查过了，相当于一种cache的方法，是很常见的优化DFS的方法。
+        visited[course] = -1;
+        for(Integer in: inDegree.get(course)){
+            if(!dfs(in, inDegree, visited)) return false;
+        }
+        visited[course] = 1;
+        return true;
+    }
+
     public static void main(String[] args){
       //  canFinish(int numCourses, int[][] prerequisites)
         /*
@@ -93,5 +127,6 @@ public class CourseSchedule {
         int numCourses = 4;
         int[][] prerequisites = {{1,0},{2,0},{3,1},{3,2}};
         System.out.println(canFinish1(numCourses, prerequisites));
+        System.out.println(canFinishDFS(numCourses, prerequisites));
     }
 }

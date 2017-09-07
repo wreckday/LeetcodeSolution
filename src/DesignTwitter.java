@@ -15,6 +15,123 @@ import java.util.*;
 
  * Created by Mellon on 6/14/16.
  */
+
+class Twitter{
+    private static int timeStamp=0;
+    // easy to find if user exist
+    private Map<Integer, User> userMap;
+
+    // Tweet link to next Tweet so that we can save a lot of time
+    // when we execute getNewsFeed(userId)
+    private class Tweet{
+        public int id;
+        public int time;
+        public Tweet next;
+
+        public Tweet(int id){
+            this.id = id;
+            time = timeStamp++;
+            next=null;
+        }
+    }
+
+    // OO design so User can follow, unfollow and post itself
+    public class User{
+        public int id;
+        public Set<Integer> followed;
+        public Tweet tweet_head;
+
+        public User(int id){
+            this.id=id;
+            followed = new HashSet<>();
+            follow(id); // first follow itself
+            tweet_head = null;
+        }
+
+        public void follow(int id){
+            followed.add(id);
+        }
+
+        public void unfollow(int id){
+            followed.remove(id);
+        }
+
+        // everytime user post a new tweet, add it to the head of tweet list.
+        public void post(int id){
+            Tweet t = new Tweet(id);
+            t.next=tweet_head;
+            tweet_head=t;
+        }
+    }
+
+    /** Initialize your data structure here. */
+    public Twitter() {
+        userMap = new HashMap<>();
+    }
+
+    /** Compose a new tweet. */
+    public void postTweet(int userId, int tweetId) {
+        if(!userMap.containsKey(userId)){
+            User u = new User(userId);
+            userMap.put(userId, u);
+        }
+        userMap.get(userId).post(tweetId);
+
+    }
+
+    // Best part of this.
+    // first get all tweets lists from one user including itself and all people it followed.
+    // Second add all heads into a max heap. Every time we poll a tweet with
+    // largest time stamp from the heap, then we add its next tweet into the heap.
+    // So after adding all heads we only need to add 9 tweets at most into this
+    // heap before we get the 10 most recent tweet.
+    public List<Integer> getNewsFeed(int userId) {
+        List<Integer> res = new LinkedList<>();
+
+        if(!userMap.containsKey(userId))   return res;
+
+        Set<Integer> users = userMap.get(userId).followed;
+        PriorityQueue<Tweet> q = new PriorityQueue<>(users.size(), (a,b)->(b.time-a.time));
+        for(int user: users){
+            Tweet t = userMap.get(user).tweet_head;
+            // very important! If we add null to the head we are screwed.
+            if(t!=null){
+                q.add(t);
+            }
+        }
+        int n=0;
+        while(!q.isEmpty() && n<10){
+            Tweet t = q.poll();
+            res.add(t.id);
+            n++;
+            if(t.next!=null)
+                q.add(t.next);
+        }
+        return res;
+    }
+
+    /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
+    public void follow(int followerId, int followeeId) {
+        if(!userMap.containsKey(followerId)){
+            User u = new User(followerId);
+            userMap.put(followerId, u);
+        }
+        if(!userMap.containsKey(followeeId)){
+            User u = new User(followeeId);
+            userMap.put(followeeId, u);
+        }
+        userMap.get(followerId).follow(followeeId);
+    }
+
+    /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
+    public void unfollow(int followerId, int followeeId) {
+        if(!userMap.containsKey(followerId) || followerId==followeeId)
+            return;
+        userMap.get(followerId).unfollow(followeeId);
+    }
+}
+
+
 public class DesignTwitter {
     public static void main(String[] args){
         Twitter twitter = new Twitter();
@@ -52,92 +169,5 @@ public class DesignTwitter {
         System.out.println(twitter.getNewsFeed(1));
         twitter.unfollow(1, 2);
         System.out.println(twitter.getNewsFeed(1));
-    }
-}
-class Tweet{
-     int tweetId;
-     int timeStamp;
-    public Tweet(int tweetId, int timeStamp ){
-        this.tweetId = tweetId;
-        this.timeStamp = timeStamp;
-    }
-}
-
-class Twitter{
-    private int time=0;
-
-    private HashMap<Integer, HashSet<Tweet>> posts = new HashMap<>();
-    private HashMap<Integer, HashSet<Integer>> friends = new HashMap<>();
-    /** Initialize your data structure here. */
-    public Twitter() {
-    }
-
-    /** Compose a new tweet. */
-    public void postTweet(int userId, int tweetId) {
-        Tweet tweet = new Tweet(tweetId, time);
-        if(posts.containsKey(userId)){
-            posts.get(userId).add(tweet);
-        }else{
-            HashSet<Tweet> set = new HashSet<>();
-            set.add(tweet);
-            posts.put(userId, set);
-        }
-        time = time+1;
-    }
-
-    /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
-    public List<Integer> getNewsFeed(int userId) {
-
-        PriorityQueue<Tweet> pq = new PriorityQueue<>(new Comparator<Tweet>() {
-            @Override
-            public int compare(Tweet o1, Tweet o2) {
-                return o2.timeStamp-o1.timeStamp;
-            }
-        });
-
-        // add friends' tweet to pq
-        if(friends.get(userId)!=null){
-            for(Integer f: friends.get(userId)){
-                if(posts.get(f)!=null){
-                    pq.addAll(posts.get(f));
-                }
-            }
-        }
-
-        // add user's tweet to pq
-        if(posts.get(userId)!=null){
-            pq.addAll(posts.get(userId));
-        }
-
-        List<Integer> newsFeeds = new ArrayList<>(10);
-        for(int i=0;i<10;i++){
-            if(pq.size()>0){
-                newsFeeds.add(pq.poll().tweetId);
-            }
-        }
-        return newsFeeds;
-    }
-
-    /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
-    public void follow(int followerId, int followeeId) {
-        if(followeeId==followerId) return;
-        if(!friends.containsKey(followerId)){
-            HashSet<Integer> set = new HashSet<>();
-            set.add(followeeId);
-            friends.put(followerId, set);
-        }else{
-            friends.get(followerId).add(followeeId);
-        }
-    }
-
-    /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
-    public void unfollow(int followerId, int followeeId) {
-        if(followeeId==followerId) return;
-        if(!friends.containsKey(followerId)) return;
-        if(friends.containsKey(followerId)){
-            if(friends.get(followerId).contains(followeeId)){
-                friends.get(followerId).remove(followeeId);
-            }
-        }
     }
 }

@@ -25,33 +25,22 @@ import java.util.HashSet;
  */
 public class L356_LineReflection {
     public static boolean isReflected(int[][] points) {
-        HashMap<Integer, HashSet<Integer>> map = new HashMap<>();
-        // first pass, get the max, and min value of x
         int max = Integer.MIN_VALUE;
         int min = Integer.MAX_VALUE;
-        for(int[] e:points){
-            max = Math.max(e[0], max);
-            min = Math.min(e[0], min);
-            if(map.containsKey(e[0])){
-                HashSet<Integer> set = map.get(e[0]);
-                set.add(e[1]);
-                map.put(e[0], set);
-            }else{
-                HashSet<Integer> set = new HashSet<>();
-                set.add(e[1]);
-                map.put(e[0], set);
-            }
-
+        HashSet<String> set = new HashSet<>();
+        for(int[] p:points){
+            max = Math.max(max,p[0]);
+            min = Math.min(min,p[0]);
+            String str = p[0] + "a" + p[1];
+            set.add(str);
         }
         int sum = max+min;
+        for(int[] p:points){
+            //int[] arr = {sum-p[0],p[1]};
+            String str = (sum-p[0]) + "a" + p[1];
+            if( !set.contains(str))
+                return false;
 
-        // second pass to see if each point has the symmetric point on the other side.
-        for(int[] e:points){
-            if(!map.containsKey(sum-e[0])||map.containsKey(sum-e[0])){
-                HashSet<Integer> set = map.get(sum-e[0]);
-                if(set==null || !set.contains(e[1]))
-                    return false;
-            }
         }
         return true;
     }

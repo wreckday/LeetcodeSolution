@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.*;
 
 /**
  *
@@ -33,23 +33,59 @@ public class L359_LoggerRateLimiter {
 }
 
 class Logger {
-    HashMap<String, Integer> map;
+    private Map<String, Integer> ok = new HashMap<>();
+
+    public boolean shouldPrintMessage(int timestamp, String message) {
+        if (timestamp < ok.getOrDefault(message, 0))
+            return false;
+        ok.put(message, timestamp + 10);
+        return true;
+    }
+}
+
+class Log {
+    int timestamp;
+    String message;
+    public Log(int aTimestamp, String aMessage) {
+        timestamp = aTimestamp;
+        message = aMessage;
+    }
+}
+
+class Logger2 {
+    Queue<Log> recentLogs;
+    Set<String> recentMessages;
+
     /** Initialize your data structure here. */
-    public Logger() {
-        map = new HashMap<>();
+    public Logger2() {
+        recentLogs = new LinkedList<>();
+        recentMessages = new HashSet<>();
     }
 
     /** Returns true if the message should be printed in the given timestamp, otherwise returns false.
      If this method returns false, the message will not be printed.
      The timestamp is in seconds granularity. */
     public boolean shouldPrintMessage(int timestamp, String message) {
-        if(map.containsKey(message) && timestamp-map.get(message)<10){
-            return false;
-
-        }else{
-            map.put(message, timestamp);
-
+        while (recentLogs.size() > 0)   {
+            Log log = recentLogs.peek();
+            // discard the logs older than 10 minutes
+            if (timestamp - log.timestamp >= 10) {
+                recentLogs.poll();
+                recentMessages.remove(log.message);
+            } else
+                break;
         }
-        return true;
+        if(!recentMessages.contains(message)){
+            recentLogs.add(new Log(timestamp, message));
+            recentMessages.add(message);
+            return true;
+        }
+
+        return false;
     }
 }
+/**
+ * Your Logger object will be instantiated and called as such:
+ * Logger obj = new Logger();
+ * boolean param_1 = obj.shouldPrintMessage(timestamp,message);
+ */
