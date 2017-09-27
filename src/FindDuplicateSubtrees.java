@@ -4,22 +4,30 @@ import java.util.*;
  * Created by Mellon on 8/1/17.
  */
 public class FindDuplicateSubtrees {
-    // time : O(N)
-    // space : O(N)
-    // key : serialize tree as string, value: count
+
+ /*
+    題目要求求出重複的subtree, 那我們直覺得就要想到可以從bottom to top 建造 sequence of 子樹的結構, 用hashMap 來存sequence.
+    要注意的是當結點是null時, 仍然要把null節點存成#, 如此一來才可以得到正確的sequence, 因為給一個sequence 是無法得到一個唯一的樹,
+    有可能會有不同樹, 但是同樣的sequence
+    time : O(N)
+    space : O(N)
+    key : serialize tree as string
+ * */
     public static List<TreeNode> findDuplicateSubtrees(TreeNode root) {
         List<TreeNode> res = new LinkedList<>();
-        postorder(root, new HashMap<>(), res);
+        helper(root, new HashMap<>(), res);
         return res;
     }
 
-    public static String postorder(TreeNode cur, Map<String, Integer> map, List<TreeNode> res) {
+    public static String helper(TreeNode cur, Map<String, Integer> map, List<TreeNode> res) {
         if (cur == null) return "#";
-        String serial = cur.val + "," + postorder(cur.left, map, res) + "," + postorder(cur.right, map, res);
+        String serial = cur.val + "," + helper(cur.left, map, res) + "," + helper(cur.right, map, res);
         if (map.getOrDefault(serial, 0) == 1) res.add(cur);
         map.put(serial, map.getOrDefault(serial, 0) + 1);
         return serial;
     }
+
+
 
     public static void main(String[] args){
         /*

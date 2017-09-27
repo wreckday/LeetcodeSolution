@@ -38,17 +38,14 @@ public class FindtheDifference {
         return t_charArray[t.length()-1];
     }
 
-    public static char findTheDifferenceXOR(String a, String b) {
-        char result = 0;
-
-        for (char x : a.toCharArray()) {
-            result ^= x;
+    public static char findTheDifferenceXOR(String s, String t) {
+        int n = t.length();
+        char c = t.charAt(n - 1);
+        for (int i = 0; i < n - 1; ++i) {
+            c ^= s.charAt(i);
+            c ^= t.charAt(i);
         }
-
-        for (char x : b.toCharArray()) {
-            result ^= x;
-        }
-        return result;
+        return c;
     }
 
 

@@ -14,17 +14,30 @@
  */
 
 public class ValidateBinarySearchTree {
-    public static boolean isValidBST(TreeNode root) {
-        return helper(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+//     public boolean isValidBST2(TreeNode root) {
+//         return helper(root, Long.MAX_VALUE, Long.MIN_VALUE);
+//     }
+
+//     private boolean helper(TreeNode root, long max, long min){
+//         if(root == null) return true;
+//         if(root.val>=max || root.val<=min) return false;
+//         return helper(root.left, root.val, min) && helper(root.right, max, root.val);
+//     }
+
+    // 利用null 和integer object 來處理Integer.MAX_VALUE
+    private boolean help(TreeNode root, Integer low, Integer high) {
+        if (root == null) return true;
+        return (low == null || root.val > low) && (high == null || root.val < high)
+                && help(root.left, low, root.val) && help(root.right, root.val, high);
     }
 
-    public static boolean helper(TreeNode root, int min, int max){
-        if(root == null) return true;
-        if(root.val <= min || root.val >= max)
-            return false;
-        return helper(root.left, min, root.val) && helper(root.right, root.val, max);
-
+    public boolean isValidBST(TreeNode root) {
+        return help(root, null, null);
     }
+
+
+    //*****************************************
+
 
 /*--------SECOND METHOD----------------------------------------------------------------------------------------*/
     public static int last = Integer.MIN_VALUE;

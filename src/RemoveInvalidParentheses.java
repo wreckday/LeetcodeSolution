@@ -13,7 +13,7 @@ import java.util.*;
  * Created by Mellon on 2/5/17.
  */
 public class RemoveInvalidParentheses {
-    public static List<String> removeInvalidParenthesesBFS(String s) {
+    public static List<String> removeInvalidParentheses(String s) {
         List<String> res = new ArrayList<>();
 
         // sanity check
@@ -36,19 +36,19 @@ public class RemoveInvalidParentheses {
                 res.add(s);
                 found = true;
             }
-            if (found) continue;
 
-            // generate all possible states
-            for (int i = 0; i < s.length(); i++) {
-                // we only try to remove left or right paren
-                if (s.charAt(i) != '(' && s.charAt(i) != ')') continue;
+            if (!found) {    // generate all possible states
+                for (int i = 0; i < s.length(); i++) {
+                    // we only try to remove left or right paren
+                    if (s.charAt(i) == '(' || s.charAt(i) == ')'){
+                        String t = s.substring(0, i) + s.substring(i + 1);
 
-                String t = s.substring(0, i) + s.substring(i + 1);
-
-                if (!visited.contains(t)) {
-                    // for each state, if it's not visited, add it to the queue
-                    queue.add(t);
-                    visited.add(t);
+                        if (!visited.contains(t)) {
+                            // for each state, if it's not visited, add it to the queue
+                            queue.add(t);
+                            visited.add(t);
+                        }
+                    }
                 }
             }
         }
@@ -87,8 +87,8 @@ public class RemoveInvalidParentheses {
     De-duplicate by adding to a HashSet.
     Compared to 106 ms BFS (Queue & Set), it's faster and easier. Hope it helps! Thanks.
     */
-    public static List<String> removeInvalidParentheses(String s) {
-        int rmL = 0, rmR = 0;
+    public static List<String> removeInvalidParenthesesDFS(String s) {
+        int rmL = 0, rmR = 0;   //至少要移除的左或右括號的個數
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(') {
                 rmL++;
@@ -132,7 +132,7 @@ public class RemoveInvalidParentheses {
 
     public static void main(String[] args){
         String input = "()())()";
-        List<String> minValidResult = removeInvalidParenthesesBFS(input);
+        List<String> minValidResult = removeInvalidParentheses(input);
         List<String> minValidResult2 = removeInvalidParentheses(input);
         int v = 5;
     }

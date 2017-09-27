@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -6,49 +7,38 @@ import java.util.List;
  */
 public class PrintBinaryTree {
 
-    public static int maxDepth(TreeNode root) {
+    public static List<List<String>> printTree(TreeNode root) {
+        int height = getHeight(root);
+        String[][] res = new String[height][(1 << height) - 1];
+        for (String[] arr : res)
+            Arrays.fill(arr, "");
+        List<List<String>> ans = new ArrayList<>();
+        fill(res, root, 0, 0, res[0].length);
+        for (String[] arr : res)
+            ans.add(Arrays.asList(arr));
+        return ans;
+    }
+
+    public static void fill(String[][] res, TreeNode root, int i, int l, int r) {
+        if (root == null)
+            return;
+        int mid = l + (r - l) / 2;
+        res[i][mid] = "" + root.val;
+        fill(res, root.left, i + 1, l, mid - 1);
+        fill(res, root.right, i + 1, mid + 1, r);
+    }
+
+    public static int getHeight(TreeNode root) {
         if (root == null)
             return 0;
-        return Math.max(maxDepth(root.left), maxDepth(root.right))+1;
+        return 1 + Math.max(getHeight(root.left), getHeight(root.right));
     }
 
-    public static List<List<String>> printTree(TreeNode root) {
-        int h = maxDepth(root);
-        List<List<String>> res = new ArrayList<>();
-        // 0, 3, 7, 15
-        int rootIndex = (int) Math.pow(2, h - 1) - 1;
-        int theMostRightIndex = rootIndex*2;
+    /*
 
-        helper(root, res, 0, rootIndex, theMostRightIndex, h);
-
-        return res;
-    }
-
-    private static void helper(TreeNode root, List<List<String>> res, int level, int rootIndex, int theMostRightLimit, int h) {
-        if (level == h || root == null) return;
-
-        if (res.size() - 1 < level) { // list doesn't exist, create a new
-            List<String> temp = new ArrayList<>();
-            for (int i = 0; i <= theMostRightLimit; i++) {
-                if (i == rootIndex) temp.add(String.valueOf(root.val));
-                else temp.add("");
-            }
-            res.add(temp);
-        } else { // list exists, so just set the value to rootIndex
-            for (int i = 0; i <= rootIndex; i++) {
-                if (i == rootIndex) res.get(level).set(rootIndex, String.valueOf(root.val));
-            }
-        }
-
-        int offSet = (int) Math.pow(2, (h - level -1)-1);
-        int leftIndex = rootIndex - offSet;
-        if (leftIndex >= 0)
-            helper(root.left, res, level + 1, leftIndex, theMostRightLimit, h);
-
-        int rightIndex = rootIndex + offSet;
-        if (rightIndex <= theMostRightLimit)
-            helper(root.right, res, level + 1, rightIndex, theMostRightLimit, h);
-    }
+        Time: O(h*2eh)
+        space: O(h*2eh)
+     */
 
     public static void main(String[] args) {
 //        TreeNode n1 = new TreeNode(1);

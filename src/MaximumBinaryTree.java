@@ -2,29 +2,36 @@
  * Created by Mellon on 8/5/17.
  */
 public class MaximumBinaryTree {
+    /*
+    Time complexity : O(n^2)
+​​    The function construct is called n times. At each level of the recursive tree,
+    we traverse over all the nn elements to find the maximum element.
+    In the average case, there will be a log(n) levels leading to a complexity of O(nlog(n)).
+    In the worst case, the depth of the recursive tree can grow upto n, which happens in the case of a sorted nums array,
+    giving a complexity of O(n^2)
+
+    Space complexity : O(n).
+    The size of the set can grow upto n in the worst case.
+    In the average case, the size will be log(n) for n elements in nums,
+    giving an average case complexity of O(log(n))
+
+    * */
     public static TreeNode constructMaximumBinaryTree(int[] nums) {
-        int index = findMaxIndex(nums, 0, nums.length-1);
-        TreeNode root = new TreeNode(nums[index]);
-        helper(nums, root, 0, nums.length-1, index );
-        return root;
+        if (nums == null) return null;
+        return build(nums, 0, nums.length - 1);
     }
 
-    private static void helper(int[] nums, TreeNode root, int start, int end, int index){
-        if(start >= end) return;
+    private static TreeNode build(int[] nums, int start, int end) {
+        if (start > end) return null;
 
-        if(start<index){
-            int currentLeftIndex = findMaxIndex(nums, start, index-1);
-            TreeNode left = new TreeNode(nums[currentLeftIndex]);
-            root.left = left;
-            helper(nums, left, start, index-1, currentLeftIndex);
-        }
+        int idxMax = findMaxIndex(nums, start, end);
 
-        if(index<end){
-            int currentRightIndex = findMaxIndex(nums, index+1, end);
-            TreeNode right = new TreeNode(nums[currentRightIndex]);
-            root.right = right;
-            helper(nums, right, index+1, end, currentRightIndex);
-        }
+        TreeNode root = new TreeNode(nums[idxMax]);
+
+        root.left = build(nums, start, idxMax - 1);
+        root.right = build(nums, idxMax + 1, end);
+
+        return root;
     }
 
     private static int findMaxIndex(int[] nums, int start, int end){

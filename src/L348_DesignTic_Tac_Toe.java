@@ -67,6 +67,7 @@ class TicTacToe {
 
         rows[row] += toAdd;
         cols[col] += toAdd;
+
         if (row == col) {
             diagonal += toAdd;
         }
@@ -84,7 +85,6 @@ class TicTacToe {
         }
 
         return 0;
-
     }
 }
 

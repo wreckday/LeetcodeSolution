@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
@@ -84,4 +85,25 @@ on level 1: x1+x2+x3+x4+x5+x6+x7+x8 sum: n
 
 total 3n, nlog8
     * */
+
+
+    public ListNode mergeKLists(List<ListNode> lists) {
+        // write your code here
+        // 1. priority queue
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((o1, o2) ->(o1.val-o2.val));
+        for(ListNode l : lists){
+            pq.add(l);
+        }
+
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+        while(pq.size()>0){
+            ListNode temp = pq.poll();
+            tail.next = temp;
+            if(temp.next != null)
+                pq.add(temp.next);
+        }
+        return dummy.next;
+    }
+
 }

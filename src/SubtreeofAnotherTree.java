@@ -2,6 +2,7 @@
  * Created by Mellon on 5/10/17.
  */
 public class SubtreeofAnotherTree {
+    /*
     public static boolean isSubtree(TreeNode s, TreeNode t) {
         if(s == null && t==null ) return true;
 
@@ -27,6 +28,32 @@ public class SubtreeofAnotherTree {
 
         return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
     }
+*/
+    static boolean found = false;
+
+    public static boolean isSubtree(TreeNode s, TreeNode t) {
+        if(s == null && t==null ) return true;
+        String t_string = serializedTreeAsString(t, "");
+        serializedTreeAsString(s, t_string);
+        return found;
+
+    }
+
+
+
+
+    public static String serializedTreeAsString(TreeNode root, String t_string){
+        if(root == null) {
+            return "#";
+        }
+
+        String cur =  root.val + serializedTreeAsString(root.left, t_string) + serializedTreeAsString(root.right, t_string);
+        if(cur.equals(t_string)){
+            found = true;
+        }
+        return cur;
+    }
+
 
     public static void main(String[] args) {
         TreeNode n1 = new TreeNode(3);

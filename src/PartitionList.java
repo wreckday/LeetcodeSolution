@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -51,6 +52,5 @@ public class PartitionList {
         n5.next=n6;
         ListNode resHead = partition(n1, 3);
         Common.printLinkListNode(resHead);
-
     }
 }

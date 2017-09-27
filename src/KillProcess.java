@@ -35,18 +35,9 @@ import java.util.*;
  * Created by Mellon on 5/13/17.
  */
 public class KillProcess {
-    public List<Integer> killProcessDFS(List<Integer> pid, List<Integer> ppid, int kill) {
-        List<Integer> l=new ArrayList<>();
-        if(kill==0)
-            return l;
-        l.add(kill);
-        for(int i=0;i<ppid.size();i++)
-            if(ppid.get(i)==kill)
-                l.addAll(killProcess(pid,ppid,pid.get(i)));
-        return l;
-    }
-
-
+    /*
+    題目說 給兩個lists, 一個是parent list, 對應另外的list 是 parent list 元素的子進程, 一個進程只能有
+    * */
     public static List<Integer> killProcess(List<Integer> pid, List<Integer> ppid, int kill) {
         Map<Integer, List<Integer>> map = new HashMap<>();
         for(int i=0;i<ppid.size();i++){

@@ -4,29 +4,18 @@ import java.util.List;
  * Created by Mellon on 6/3/17.
  */
 public class ConstructStringfromBinaryTree {
-    public static String tree2str(TreeNode t) {
-        if(t==null) return "";
-        StringBuilder sb = new StringBuilder();
-        helper(sb , t);
-        if(sb.length()>2){
-            sb.deleteCharAt(0);
-            sb.deleteCharAt(sb.length()-1);
-        }
-        return sb.toString();
-    }
+    public static String tree2str(TreeNode root){
+        if(root==null) return "";
 
-    private static void helper(StringBuilder sb, TreeNode root){
-        sb.append("(");
-        sb.append(root.val);
-        if(root.left != null)
-            helper(sb, root.left);
-        else if(root.right!=null)
-            sb.append("()");
-
-        if(root.right != null)
-            helper(sb, root.right);
-
-        sb.append(")");
+        // root != null
+        if(root.left != null && root.right != null)
+            return root.val + "(" + tree2str(root.left) + ")" + "("+ tree2str(root.right) + ")";
+        else if(root.left != null)
+            return root.val + "(" + tree2str(root.left) + ")";
+        else if(root.right != null)
+            return root.val + "()" + "("+ tree2str(root.right) + ")";
+        else
+            return root.val + "";
     }
 
     public static void main(String[] args){

@@ -2,69 +2,29 @@
  * Created by Hsiang-Ting Yang on 5/30/15.
  */
 public class ReverseWord {
-    public static String reverseWords2(String s) {
-        s = s.trim();
-        if(s.equals("")) return s;
-        StringBuilder newStr = new StringBuilder();
-
-        for(int i=0;i<s.length()-1;i++){
-            if(s.charAt(i+1)!=' '||s.charAt(i)!=' ')
-                newStr.append(s.charAt(i));
-        }
-
-        if(s.charAt(s.length()-1)!= ' ')
-            newStr.append(s.charAt(s.length()-1));
-
-        String s1 = reverseHelper(newStr.toString());
-        String[] arr = s1.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for(String e:arr){
-            sb.append(reverseHelper(e));
-            sb.append(" ");
-        }
-        sb.deleteCharAt(sb.length()-1);
-        return sb.toString();
-    }
-
-    private static String reverseHelper(String str){
-        char[] a = str.toCharArray();
-        int l=0;
-        int r= str.length()-1;
-        char temp = ' ';
-        while(l<r){
-            temp = a[r];
-            a[r] = a[l];
-            a[l]=temp;
-            l++;
-            r--;
-        }
-        return new String(a);
-    }
 
     public static String reverseWords(String s) {
-        if(s==null) return null;
-        s = s.trim();
-        if(s.length()==0) return "";
+        StringBuilder sb = new StringBuilder();
+        if(s == null || s.length()==0) return sb.toString();
 
-        StringBuilder res = new StringBuilder();
-        for(int i=0; i<s.length(); i++){
-            if(i!=s.length()-1 && s.charAt(i) ==' ' && s.charAt(i+1) ==' ')
-                continue;
-            res.append(s.charAt(i));
-        }
-        s = res.toString();
-        String[] a = s.split(" ");
-        String result ="";
-        for(int i = a.length-1; i>-1; i--){
-            result = result + a[i];
+        //Removing Anything Apart from a-zA-Z0-9 using the Regular Expressions
+//        String reg = "[^a-zA-Z0-9]+";
+//        if (s.matches(reg)) return sb.toString();
 
-            if(i!=0)
-                result = result + " ";
+        //Removing the end spaces using the trim and split("\\s+") to remove bunch of consistent white spaces.
+        String [] str = s.trim().split("\\s+");
+        for(int i =str.length-1 ; i>=0 ; i--){
+            sb.append(str[i]);
+            sb.append(" ");
         }
-        return result;
+        //To remove the last the " " provided to the function
+        return sb.toString().trim();
     }
 
-    public static void main(String[] args){
-        System.out.println(reverseWords("hello word"));
+    public static void main(String[] args) {
+        //System.out.println(reverseWords(input));
+        String[] res = "a      b".split("\\s+");
+
+        int v = 5;
     }
 }

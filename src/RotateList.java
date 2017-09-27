@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Mellon on 8/6/16.
  */
 public class RotateList {
-    public static ListNode rotateRight(ListNode head, int n) {
+    public static ListNode rotateRight(ListNode head, int k) {
         if (head==null||head.next==null) return head;
 
         ListNode dummy=new ListNode(0);
@@ -18,10 +18,13 @@ public class RotateList {
         ListNode fast=dummy,slow=dummy;
 
         int i;
+        // fast will become the first list's tail
         for (i=0;fast.next!=null;i++)//Get the total length
             fast=fast.next;
 
-        for (int j=i-n%i;j>0;j--) //Get the i-n%i th node
+        // slow will become the second tail
+        // slow.next will be the first list's head
+        for (int j=i-k%i;j>0;j--) //Get the i-n%i th node
             slow=slow.next;
 
         fast.next=dummy.next; //Do the rotation

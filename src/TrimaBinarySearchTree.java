@@ -11,13 +11,15 @@ public class TrimaBinarySearchTree {
 
     public TreeNode trimBST(TreeNode root, int L, int R){
         if(root==null) return null;
-        if(root.val < L)
+        // 分三種情況,
+        if(root.val < L)      //當root.val小於lower界限時, 就要改成繼續trim root 的右子樹,
             return trimBST(root.right, L, R);
-        else if(root.val > R)
+        else if(root.val > R)    //當root.val大於higher界限時, 就要改成繼續trim root 的左子樹,
             return trimBST(root.left, L, R);
-
-        root.left = trimBST(root.left, L, R);
-        root.right = trimBST(root.right, L, R);
-        return root;
+        else {                  // 當root.val 介於lower界限和higher 界限時,  要繼續往左右子樹trim 然後 return root
+            root.left = trimBST(root.left, L, R);
+            root.right = trimBST(root.right, L, R);
+            return root;
+        }
     }
 }
