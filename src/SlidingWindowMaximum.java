@@ -29,32 +29,38 @@ import java.util.List;
  * Created by Mellon on 7/23/16.
  */
 public class SlidingWindowMaximum {
-    // time complexity O(n)
+    /*
+    time complexity O(n)
+    space complexity O(k)
+    思路是用deque 存位置的index, deque 的前面的元素是還在window裡, 越早之前走過的元素, 且從前往後, 大到小排列 因為只能k size, 所以我們要移除超過k size 之前的元素,
+    然後 從deque 後面往前 一個一個檢查現在的元素值, 如果小於現在的值, 就從後面開始poll, 結果只剩下比現在元素大的值, 且在window裡的值。
+    * */
     public static int[] maxSlidingWindow(int[] nums, int k) {
         if (nums == null || k <= 0) {
             return new int[0];
         }
-        int n = nums.length;
-        int[] r = new int[n-k+1];
-        int ri = 0;
-        // store index
+        int len = nums.length;
+        int[] res = new int[len-k+1];
+        int index = 0;
+
         Deque<Integer> q = new ArrayDeque<>();
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < len; i++) {
             // remove numbers out of range k
             if (!q.isEmpty() && q.peek() < i - k + 1) {
                 q.poll();
             }
-            // remove smaller numbers in k range as they are useless
+            // remove smaller numbers compared to current value in k range as they are useless
             while (!q.isEmpty() && nums[q.peekLast()] < nums[i]) {
                 q.pollLast();
             }
-            // q contains index... r contains content
+
             q.offer(i);
+            // fill out result
             if (i >= k - 1) {
-                r[ri++] = nums[q.peek()];
+                res[index++] = nums[q.peek()];
             }
         }
-        return r;
+        return res;
     }
 
     public static int[] minSlidingWindow(int[] nums, int k) {

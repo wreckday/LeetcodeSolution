@@ -13,8 +13,8 @@ public class SolvetheEquation {
         int x = r1[0] - r2[0];
         int c = r2[1] - r1[1];
         if (x == 0) {
-            if (c == 0) return "Infinite solutions";
-            return "No solution";
+            if (c == 0) return "Infinite solutions";     // x = x
+            return "No solution";                        // x = x + 2
         }
         return "x=" + (c / x);
     }
@@ -24,7 +24,7 @@ public class SolvetheEquation {
         int len = -1;
         int x = 0, c = 0;
         for (String p : ps) {
-            if (p.length() == 0) {
+            if (p.length() == 0) { // e.g. s => -x after split will be ["", "x"] 所以要檢查長度
                 len++;
                 continue;
             }
@@ -44,7 +44,8 @@ public class SolvetheEquation {
     }
 
     public static void main(String[] args){
-        String str = "x+5-3+x=6+x-2";
+//        String str = "x+5-3+x=6+x-2";
+        String str = "-x+5=-1";
         System.out.println(solveEquation(str));
     }
 

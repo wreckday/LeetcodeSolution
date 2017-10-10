@@ -1,3 +1,5 @@
+import java.util.UUID;
+
 /**
  * Created by Mellon on 9/19/17.
  */
@@ -44,5 +46,8 @@ public class StringtoInteger {
         //System.out.println(atoi(s));
 
         System.out.println(Float.MAX_VALUE);
+
+        UUID id = UUID.randomUUID();
+        System.out.println(id);
     }
 }
