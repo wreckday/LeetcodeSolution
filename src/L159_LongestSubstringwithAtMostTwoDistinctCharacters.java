@@ -1,11 +1,12 @@
 import java.util.*;
+
 /**
- Given a string, find the length of the longest substring T that contains at most 2 distinct characters.
-
- For example, Given s = “eceba”,
-
- T is "ece" which its length is 3.
- *
+ * Given a string, find the length of the longest substring T that contains at most 2 distinct characters.
+ * <p>
+ * For example, Given s = “eceba”,
+ * <p>
+ * T is "ece" which its length is 3.
+ * <p>
  * Created by Mellon on 9/8/16.
  */
 public class L159_LongestSubstringwithAtMostTwoDistinctCharacters {
@@ -16,40 +17,42 @@ public class L159_LongestSubstringwithAtMostTwoDistinctCharacters {
     代码如下：
     */
     public static int lengthOfLongestSubstringTwoDistinct(String s) {
-        if(s.length() == 0)
+        if (s.length() == 0)
             return 0;
 
-        int count = 0;
-        HashMap<Character,Integer> map = new HashMap<>(); // key: character, value: count of the character(key) in the moving window
+        int[] map = new int[128];
         int start = 0;
-        int len = 0;
-        for(int i = 0;i<s.length();i++) {
-            char c = s.charAt(i);
-            if(map.containsKey(c)) {
-                map.put(c, map.get(c)+1);
-            } else {
-                map.put(c,1);
+        int end = 0;
+        int count = 0;
+        int maxLen = 0;
+
+        while (end < s.length()) {
+
+            if (map[s.charAt(end)] == 0) {
+                count++;
             }
+            map[s.charAt(end)]++;
 
-            if(map.get(c)==1) count++;
 
-            while(count>2) {
+            while (count > 2) { // invalid
+                // 左指針往右移, 直到變成valid
+                map[s.charAt(start)]--;
 
-                char c2 = s.charAt(start);
-                map.put(c2,map.get(c2)-1);
-
-                if(map.get(c2)<=0)
-                    count--;
-                // 左指針往右
-                start++;
+                if(map[s.charAt(start)]==0) {
+                    count --;
+                }
+                start ++;
             }
-            len = Math.max(i-start+1,len);
+            maxLen = Math.max(maxLen, end - start + 1);
+            end++;
         }
-        return len;
+        return maxLen;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String input = "eceba";
-        System.out.print(lengthOfLongestSubstringTwoDistinct(input));
+        String input2 = "";
+        System.out.println(lengthOfLongestSubstringTwoDistinct(input2));
+
     }
 }

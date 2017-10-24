@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.*;
@@ -9,39 +7,18 @@ import java.util.*;
  */
 public class BrickWall {
     public static int leastBricks(List<List<Integer>> wall) {
-        for(List<Integer> row : wall){
-            for(int i=0;i<row.size();i++){
-                if(i>0){
-                    row.set(i, row.get(i-1)+row.get(i));
-                }
-            }
-        }
-
+        if(wall.size() == 0) return 0;
+        int count = 0;
         Map<Integer, Integer> map = new HashMap<>();
-        for(List<Integer> row : wall){
-            for(int i=0;i<row.size()-1;i++){
-                if(map.containsKey(row.get(i))){
-                    map.put(row.get(i), map.get(row.get(i))+1);
-                }else{
-                    map.put(row.get(i), 1);
-                }
+        for(List<Integer> list : wall){
+            int length = 0;
+            for(int i = 0; i < list.size() - 1; i++){
+                length += list.get(i);
+                map.put(length, map.getOrDefault(length, 0) + 1);
+                count = Math.max(count, map.get(length));
             }
         }
-
-        if(map.size()==0) return wall.size();
-
-        int maxKey = 0;
-        int maxValue = Integer.MIN_VALUE;
-        for(Map.Entry<Integer, Integer> entry :map.entrySet()){
-            if(entry.getValue()>=maxValue){
-                maxKey = entry.getKey();
-                maxValue = entry.getValue();
-            }
-        }
-
-        int rowsSize = wall.size();
-
-        return rowsSize-maxValue;
+        return wall.size() - count;
     }
 
     public static void main(String[] args){

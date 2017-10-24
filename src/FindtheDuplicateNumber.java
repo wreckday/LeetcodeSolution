@@ -25,25 +25,46 @@ public class FindtheDuplicateNumber {
     So I shrink the search space from [1 10] to [1 5].
     Otherwise the duplicate number is in the second half so for the next step the search space would be [6 10].
     * */
-    public static int findDuplicate(int[] nums) {
-        int low=1;
-        int high=nums.length;
-        int mid=0, count=0;
+    public static int findDuplicate_nlogn(int[] nums) {
+        int low = 1;
+        int high = nums.length;
+        int mid = 0, count = 0;
 
-        while(low<high){
-            mid=(low+high)/2;
-            count=0;
-            for(int num : nums)
-                if(num<=mid)  count++;
-            if(count<=mid)
-                low=mid+1;
+        while (low < high) {
+            mid = (low + high) / 2;
+            count = 0;
+            for (int num : nums)
+                if (num <= mid) count++;
+            if (count <= mid)
+                low = mid + 1;
             else
-                high=mid;
+                high = mid;
         }
         return low;
     }
 
-    public static void main(String[] args){
+    public static int findDuplicate(int[] nums) {
+        if (nums.length > 1) {
+            int slow = nums[0];
+            int fast = nums[nums[0]];
+            while (slow != fast) {
+                slow = nums[slow];
+                fast = nums[nums[fast]];
+            }
 
+            fast = 0;
+            while (fast != slow) {
+                fast = nums[fast];
+                slow = nums[slow];
+            }
+            return slow;
+        }
+        return -1;
+    }
+
+
+    public static void main(String[] args) {
+        int[] input = {2, 3, 2, 2, 2};
+        System.out.println(findDuplicate(input));
     }
 }

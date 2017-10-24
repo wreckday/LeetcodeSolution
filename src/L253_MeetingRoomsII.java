@@ -3,19 +3,27 @@ import java.util.*;
 /**
  * Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei),
  * find the minimum number of conference rooms required.
-
- For example,
- Given [[0, 30],[5, 10],[15, 20]],
- return 2.
- *
+ * <p>
+ * For example,
+ * Given [[0, 30],[5, 10],[15, 20]],
+ * return 2.
+ * <p>
  * Created by Mellon on 5/26/16.
  */
 public class L253_MeetingRoomsII {
     static class Interval {
         int start;
         int end;
-        Interval() { start = 0; end = 0; }
-        Interval(int s, int e) { start = s; end = e; }
+
+        Interval() {
+            start = 0;
+            end = 0;
+        }
+
+        Interval(int s, int e) {
+            start = s;
+            end = e;
+        }
     }
 
     public static int minMeetingRooms(Interval[] intervals) {
@@ -23,7 +31,7 @@ public class L253_MeetingRoomsII {
             return 0;
         }
         // sort
-        Arrays.sort(intervals, (a, b)->(a.start-b.start));
+        Arrays.sort(intervals, (a, b) -> (a.start - b.start));
         // PriorityQueue
         PriorityQueue<Integer> ends = new PriorityQueue<>();
         for (Interval cur_interval : intervals) {
@@ -42,12 +50,16 @@ public class L253_MeetingRoomsII {
 
         // Sort the intervals by start time
         Arrays.sort(intervals, new Comparator<Interval>() {
-            public int compare(Interval a, Interval b) { return a.start - b.start; }
+            public int compare(Interval a, Interval b) {
+                return a.start - b.start;
+            }
         });
 
         // Use a min heap to track the minimum end time of merged intervals
         PriorityQueue<Interval> heap = new PriorityQueue<Interval>(intervals.length, new Comparator<Interval>() {
-            public int compare(Interval a, Interval b) { return a.end - b.end; }
+            public int compare(Interval a, Interval b) {
+                return a.end - b.end;
+            }
         });
 
         // start with the first meeting, put it to a meeting room
@@ -74,7 +86,7 @@ public class L253_MeetingRoomsII {
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         Interval meet2 = new Interval(4, 9);
         Interval meet3 = new Interval(4, 17);

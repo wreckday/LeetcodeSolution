@@ -28,7 +28,9 @@ public class DecodeWays {
         ＃＃＃哪些條件提示我想到了解法：題目說求出所有有幾種方法, 就會想到用dp
     * */
     public static int numDecodings(String s) {
+
         if (s == null || s.length() == 0) return 0;
+
         int n = s.length();
         int[] dp = new int[n + 1];
         dp[n] = 1;

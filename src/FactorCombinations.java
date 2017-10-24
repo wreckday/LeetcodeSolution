@@ -24,35 +24,30 @@ public class FactorCombinations {
 
     public static List<List<Integer>> getFactorsFaster(int n) {
         List<List<Integer>> result = new ArrayList<>();
-        helperFaster(n, 2, new ArrayList<>(), result);
+        helper(n, 2, new ArrayList<>(), result);
         return result;
     }
 
-    public static void helperFaster(int n, int start, List<Integer> item, List<List<Integer>> result){
+
+    public static void helper(int n, int start, List<Integer> item, List<List<Integer>> result){
         if (n <= 1) {
             if (item.size() > 1) {
                 result.add(new ArrayList<>(item));
             }
             return;
         }
-
-        for (int i = start; i * i <= n; i++) {
+        // start 確保因數是遞增
+        for (int i = start; i <= n; i++) {
             if (n % i == 0) {
                 item.add(i);
-                helperFaster(n / i, i, item, result);
+                helper(n / i, i, item, result);
                 item.remove(item.size()-1);
             }
         }
-
-        // e.g. n = 6    (6/2 ->  start = i = 3, n = 3)
-        int i = n;
-        item.add(i);
-        helperFaster(n / i, i, item, result);
-        item.remove(item.size()-1);
     }
 
     public static void main(String[] args){
-        int input = 37;
+        int input = 12;
         List<List<Integer>> res2 = getFactorsFaster(input);
         Common.printNestedList(res2);
     }

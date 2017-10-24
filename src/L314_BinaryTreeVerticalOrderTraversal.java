@@ -34,8 +34,8 @@ public class L314_BinaryTreeVerticalOrderTraversal {
         q.add(root);
         cols.add(0);
 
-        int min = 0;
-        int max = 0;
+        int min = 0;  // 最左邊的行數
+        int max = 0;  // 最右邊的行數
 
         while (!q.isEmpty()) {
             TreeNode node = q.poll();

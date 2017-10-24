@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  Given an integer, convert it to a roman numeral.
@@ -29,9 +30,5 @@ public class IntegertoRoman {
         map.put(0, 1);
         map.put(1, 2);
 
-        map.forEach((k, v) -> {
-            if (k == 1)
-                System.out.println("value :" + v);
-        });
     }
 }

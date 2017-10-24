@@ -44,7 +44,7 @@ public class CombinationSumIII {
         }
 
         for(int i=start;i<=9;i++){
-            if(n-i<0) continue;
+            if(n-i<0) return;
 
             item.add(i);
             helper(i+1, k, n-i, item, res);

@@ -66,14 +66,11 @@ class Logger2 {
      If this method returns false, the message will not be printed.
      The timestamp is in seconds granularity. */
     public boolean shouldPrintMessage(int timestamp, String message) {
-        while (recentLogs.size() > 0)   {
+        while (recentLogs.size() > 0 && recentLogs.peek().timestamp-timestamp>=10)   {
             Log log = recentLogs.peek();
             // discard the logs older than 10 minutes
-            if (timestamp - log.timestamp >= 10) {
-                recentLogs.poll();
-                recentMessages.remove(log.message);
-            } else
-                break;
+            recentLogs.poll();
+            recentMessages.remove(log.message);
         }
         if(!recentMessages.contains(message)){
             recentLogs.add(new Log(timestamp, message));

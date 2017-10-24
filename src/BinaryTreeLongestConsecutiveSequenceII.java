@@ -25,10 +25,4 @@ public class BinaryTreeLongestConsecutiveSequenceII {
         return max;
     }
 
-    /*
-    The HashMap stores the sum of all elements before index i as key,and i as value.
-    For each i, check not only the current sum but also (currentSum - previousSum) to see
-    if there is any that equals k, and update max length.
-    */
-
 }

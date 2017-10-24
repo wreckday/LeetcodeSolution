@@ -16,9 +16,11 @@ public class BinaryNumberwithAlternatingBits {
     }
 
 
+
     public static void main(String[] args) {
         int input1 = 5;
         int input2 = 7;
+
 
         System.out.println(hasAlternatingBits(input2));
 
